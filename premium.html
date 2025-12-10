@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Premium - Elosya</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <div class="logo">
+          <i class="fas fa-star logo-icon"></i>
+          <h1>ELOSYA</h1>
+        </div>
+        <nav class="nav">
+          <ul>
+            <li><a href="index.html"><i class="fas fa-home"></i> Accueil</a></li>
+            <li><a href="community.html"><i class="fas fa-users"></i> Communauté</a></li>
+            <li><a href="reading.html"><i class="fas fa-book"></i> Lecture</a></li>
+            <li><a href="premium.html" class="active"><i class="fas fa-crown"></i> Premium</a></li>
+            <li><a href="chat.html"><i class="fas fa-comments"></i> Messages</a></li>
+          </ul>
+        </nav>
+        <div class="header-actions">
+          <a href="login.html" class="btn btn-outline">Connexion</a>
+          <a href="register.html" class="btn btn-primary">Inscription</a>
+        </div>
+        <div class="mobile-menu">
+          <i class="fas fa-bars"></i>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Premium Hero -->
+  <section class="hero" style="padding: 60px 0;">
+    <div class="container">
+      <div class="hero-content">
+        <div style="font-size: 60px; margin-bottom: 20px;">
+          <i class="fas fa-crown" style="background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
+        </div>
+        <h2 class="hero-title">Passez à <span class="gradient-text">Premium</span></h2>
+        <p class="hero-description">Débloquez toutes les fonctionnalités et profitez d'une expérience sans publicité</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Premium Benefits -->
+  <section class="features">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Avantages Premium</h2>
+        <p class="section-subtitle">Tout ce que vous obtenez avec un abonnement premium</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fas fa-ad"></i></div>
+          <h3>Sans publicité</h3>
+          <p>Profitez d'une expérience complètement sans publicité sur toute la plateforme.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fas fa-badge-check"></i></div>
+          <h3>Badge Premium</h3>
+          <p>Affichez fièrement votre badge premium noir sur votre profil.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fas fa-book-reader"></i></div>
+          <h3>Livres exclusifs</h3>
+          <p>Accédez à une bibliothèque exclusive de livres premium réservés aux abonnés.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fas fa-robot"></i></div>
+          <h3>IA illimitée</h3>
+          <p>Conversations illimitées avec notre assistant IA bienveillant.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fas fa-dollar-sign"></i></div>
+          <h3>Monétisation</h3>
+          <p>Devenez créateur de contenu et monétisez vos publications.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fas fa-headset"></i></div>
+          <h3>Support prioritaire</h3>
+          <p>Bénéficiez d'un support client prioritaire et personnalisé.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fas fa-gift"></i></div>
+          <h3>Cashback</h3>
+          <p>Recevez jusqu'à 10% de cashback sur vos abonnements annuels.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon"><i class="fas fa-users-crown"></i></div>
+          <h3>Communautés VIP</h3>
+          <p>Accédez à des communautés et groupes exclusifs réservés aux membres premium.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Premium Plans -->
+  <section class="premium-plans">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Choisissez votre plan</h2>
+        <p class="section-subtitle">Tous les plans incluent les mêmes fonctionnalités premium</p>
+      </div>
+      <div class="plans-grid">
+        <div class="plan-card">
+          <div class="plan-badge">Hebdomadaire</div>
+          <div class="plan-price">2,99€<span>/semaine</span></div>
+          <ul class="plan-features">
+            <li><i class="fas fa-check"></i> Sans publicité</li>
+            <li><i class="fas fa-check"></i> Badge Premium noir</li>
+            <li><i class="fas fa-check"></i> Livres exclusifs</li>
+            <li><i class="fas fa-check"></i> IA illimitée</li>
+            <li><i class="fas fa-check"></i> Support prioritaire</li>
+            <li><i class="fas fa-check"></i> Monétisation contenu</li>
+          </ul>
+          <button onclick="selectPlan('weekly', 2.99)" class="btn btn-primary">Choisir ce plan</button>
+        </div>
+        
+        <div class="plan-card featured">
+          <div class="plan-badge popular">Populaire</div>
+          <div class="plan-price">9,99€<span>/mois</span></div>
+          <div style="text-align: center; color: var(--success); margin-bottom: 20px; font-weight: 600;">
+            <i class="fas fa-tag"></i> Économisez 50%
+          </div>
+          <ul class="plan-features">
+            <li><i class="fas fa-check"></i> Toutes les fonctionnalités</li>
+            <li><i class="fas fa-check"></i> Badge Premium noir</li>
+            <li><i class="fas fa-check"></i> Livres exclusifs</li>
+            <li><i class="fas fa-check"></i> IA illimitée</li>
+            <li><i class="fas fa-check"></i> Support prioritaire</li>
+            <li><i class="fas fa-check"></i> Monétisation contenu</li>
+          </ul>
+          <button onclick="selectPlan('monthly', 9.99)" class="btn btn-primary">Choisir ce plan</button>
+        </div>
+        
+        <div class="plan-card">
+          <div class="plan-badge">Trimestriel</div>
+          <div class="plan-price">24,99€<span>/3 mois</span></div>
+          <div style="text-align: center; color: var(--success); margin-bottom: 20px; font-weight: 600;">
+            <i class="fas fa-tag"></i> Économisez 65% + Cashback 5%
+          </div>
+          <ul class="plan-features">
+            <li><i class="fas fa-check"></i> Toutes les fonctionnalités</li>
+            <li><i class="fas fa-check"></i> Badge Premium exclusif</li>
+            <li><i class="fas fa-check"></i> Livres exclusifs</li>
+            <li><i class="fas fa-check"></i> IA illimitée</li>
+            <li><i class="fas fa-check"></i> Support prioritaire</li>
+            <li><i class="fas fa-check"></i> Cashback 5%</li>
+          </ul>
+          <button onclick="selectPlan('quarterly', 24.99)" class="btn btn-primary">Choisir ce plan</button>
+        </div>
+        
+        <div class="plan-card">
+          <div class="plan-badge">Annuel</div>
+          <div class="plan-price">79,99€<span>/an</span></div>
+          <div style="text-align: center; color: var(--success); margin-bottom: 20px; font-weight: 600;">
+            <i class="fas fa-tag"></i> Économisez 73% + Cashback 10%
+          </div>
+          <ul class="plan-features">
+            <li><i class="fas fa-check"></i> Toutes les fonctionnalités</li>
+            <li><i class="fas fa-check"></i> Badge VIP doré</li>
+            <li><i class="fas fa-check"></i> Livres exclusifs</li>
+            <li><i class="fas fa-check"></i> IA illimitée</li>
+            <li><i class="fas fa-check"></i> Support VIP</li>
+            <li><i class="fas fa-check"></i> Cashback 10%</li>
+          </ul>
+          <button onclick="selectPlan('yearly', 79.99)" class="btn btn-primary">Choisir ce plan</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Payment Info -->
+  <section class="features" style="padding: 60px 0;">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Moyens de paiement acceptés</h2>
+      </div>
+      <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 40px;">
+        <div style="text-align: center;">
+          <i class="fab fa-cc-paypal" style="font-size: 50px; color: var(--primary);"></i>
+          <p style="margin-top: 10px; color: var(--gray);">PayPal</p>
+        </div>
+        <div style="text-align: center;">
+          <i class="fas fa-mobile-alt" style="font-size: 50px; color: var(--primary);"></i>
+          <p style="margin-top: 10px; color: var(--gray);">Money Fusion</p>
+        </div>
+        <div style="text-align: center;">
+          <i class="fas fa-credit-card" style="font-size: 50px; color: var(--primary);"></i>
+          <p style="margin-top: 10px; color: var(--gray);">Carte bancaire</p>
+        </div>
+        <div style="text-align: center;">
+          <i class="fas fa-university" style="font-size: 50px; color: var(--primary);"></i>
+          <p style="margin-top: 10px; color: var(--gray);">Virement</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-column">
+          <h3>ELOSYA</h3>
+          <p>La plateforme sociale nouvelle génération.</p>
+        </div>
+        <div class="footer-column">
+          <h3>Navigation</h3>
+          <ul class="footer-links">
+            <li><a href="index.html">Accueil</a></li>
+            <li><a href="premium.html">Premium</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Elosya - Tous droits réservés</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    function selectPlan(planType, price) {
+      alert(`Vous avez sélectionné le plan ${planType} à ${price}€.\n\nLe système de paiement sera intégré prochainement avec Money Fusion (+226 02688902).`);
+    }
+  </script>
+</body>
+</html>
