@@ -1,0 +1,56 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install & Build (if package.json has build)
+        run: |
+          if [ -f package.json ]; then
+            has_build=$(node -e "try{console.log(Boolean(require('./package.json').scripts && require('./package.json').scripts.build))}catch(e){console.log('false')}")
+            if [ "$has_build" = "true" ]; then
+              npm ci
+              npm run build
+            fi
+          fi
+
+      - name: Determine publish directory
+        id: find_dir
+        run: |
+          for d in dist build public docs out _site; do
+            if [ -d "$d" ]; then
+              echo "publish_dir=$d" >> $GITHUB_OUTPUT
+              exit 0
+            fi
+          done
+          # Fallback to docs folder if exists, else root
+          if [ -d "docs" ]; then
+            echo "publish_dir=docs" >> $GITHUB_OUTPUT
+          else
+            echo "publish_dir=." >> $GITHUB_OUTPUT
+          fi
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ${{ steps.find_dir.outputs.publish_dir }}
+          publish_branch: gh-pages
+          allow_empty_commit: true
