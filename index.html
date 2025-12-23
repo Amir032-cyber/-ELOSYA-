@@ -3,252 +3,705 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Elosya - Plateforme sociale innovante avec IA, lecture, communauté et bien-être">
-  <title>Elosya - Votre réseau social nouvelle génération</title>
+  <meta name="description" content="Elosya - Plateforme sociale nouvelle génération avec IA, monétisation vidéo, communauté bien-être et portefeuille multi-devises">
+  <meta name="keywords" content="IA, réseau social, monétisation vidéo, bien-être mental, plateforme sociale, TikTok alternative, Instagram alternative">
+  <title>Elosya - Votre réseau social nouvelle génération avec IA & Monétisation</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
   <link rel="stylesheet" href="styles.css">
+  <style>
+    /* ===== ANIMATIONS PROFESSIONNELLES ===== */
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    
+    @keyframes floatAnimation {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+    
+    @keyframes shimmer {
+      0% { background-position: -1000px 0; }
+      100% { background-position: 1000px 0; }
+    }
+    
+    @keyframes badgeGlow {
+      0%, 100% { 
+        box-shadow: 0 0 20px var(--badge-color, #2563eb), 
+                    0 0 40px var(--badge-color, #2563eb),
+                    inset 0 0 10px rgba(255,255,255,0.3); 
+      }
+      50% { 
+        box-shadow: 0 0 30px var(--badge-color, #2563eb),
+                    0 0 60px var(--badge-color, #2563eb),
+                    inset 0 0 20px rgba(255,255,255,0.5);
+      }
+    }
+    
+    /* ===== SPLASH SCREEN DIVINE ===== */
+    .splash-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #0a0e17 0%, #1a1b4b 50%, #0a0e17 100%);
+      background-size: 400% 400%;
+      animation: gradientFlow 8s ease infinite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      overflow: hidden;
+    }
+    
+    .splash-screen::before {
+      content: '';
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(124, 58, 237, 0.1) 0%, transparent 70%);
+      animation: floatAnimation 20s ease-in-out infinite;
+    }
+    
+    .splash-content {
+      text-align: center;
+      z-index: 2;
+    }
+    
+    .splash-logo {
+      font-size: 8rem;
+      margin-bottom: 2rem;
+      background: linear-gradient(45deg, #7c3aed, #2563eb, #f59e0b);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: gradientFlow 3s ease infinite, floatAnimation 6s ease-in-out infinite;
+    }
+    
+    .splash-title {
+      font-size: 5rem;
+      font-weight: 900;
+      margin-bottom: 1rem;
+      background: linear-gradient(45deg, #ffffff, #c7d2fe, #ffffff);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: gradientFlow 4s ease infinite;
+      text-shadow: 0 0 30px rgba(124, 58, 237, 0.5);
+    }
+    
+    .splash-tagline {
+      font-size: 1.5rem;
+      color: #c7d2fe;
+      margin-bottom: 3rem;
+      opacity: 0;
+      animation: fadeIn 2s ease 1s forwards;
+    }
+    
+    .splash-loader {
+      width: 80px;
+      height: 80px;
+      border: 4px solid rgba(124, 58, 237, 0.3);
+      border-top: 4px solid #7c3aed;
+      border-radius: 50%;
+      margin: 0 auto;
+      animation: spin 1s linear infinite;
+    }
+    
+    /* ===== EN-TÊTE PROFESSIONNEL ===== */
+    .header {
+      background: rgba(10, 14, 23, 0.98);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(124, 58, 237, 0.3);
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      padding: 1rem 0;
+      transition: all 0.3s ease;
+    }
+    
+    .header.scrolled {
+      padding: 0.5rem 0;
+      background: rgba(10, 14, 23, 0.95);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+    
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      text-decoration: none;
+    }
+    
+    .logo-icon {
+      font-size: 2.5rem;
+      background: linear-gradient(45deg, #7c3aed, #2563eb);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .logo h1 {
+      font-size: 2rem;
+      font-weight: 900;
+      background: linear-gradient(45deg, #ffffff, #c7d2fe);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    /* ===== NAVIGATION AVANCÉE ===== */
+    .nav ul {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    
+    .nav a {
+      color: #c7d2fe;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .nav a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(124, 58, 237, 0.2), transparent);
+      transition: left 0.6s ease;
+    }
+    
+    .nav a:hover::before {
+      left: 100%;
+    }
+    
+    .nav a:hover, .nav a.active {
+      background: linear-gradient(45deg, rgba(124, 58, 237, 0.2), rgba(37, 99, 235, 0.2));
+      color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(124, 58, 237, 0.2);
+    }
+    
+    /* ===== SECTION HÉROÏQUE ===== */
+    .hero {
+      padding: 15rem 0 8rem;
+      background: linear-gradient(135deg, #0a0e17 0%, #1a1b4b 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        radial-gradient(circle at 20% 80%, rgba(124, 58, 237, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(37, 99, 235, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(245, 158, 11, 0.05) 0%, transparent 50%);
+      animation: floatAnimation 20s ease-in-out infinite;
+    }
+    
+    .hero-content {
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    
+    .hero-title {
+      font-size: 4rem;
+      font-weight: 900;
+      margin-bottom: 2rem;
+      background: linear-gradient(45deg, #ffffff, #7c3aed, #2563eb);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: gradientFlow 4s ease infinite;
+    }
+    
+    .hero-description {
+      font-size: 1.5rem;
+      color: #c7d2fe;
+      margin-bottom: 3rem;
+      line-height: 1.6;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .hero-buttons {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      margin-bottom: 4rem;
+    }
+    
+    /* ===== BADGES ELOSYA ===== */
+    .badge-showcase {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      margin: 4rem 0;
+      flex-wrap: wrap;
+    }
+    
+    .badge-item {
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    
+    .badge-item:hover {
+      transform: translateY(-10px);
+    }
+    
+    .badge-visual {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      margin: 0 auto 1rem;
+      position: relative;
+    }
+    
+    .badge-blue .badge-visual {
+      --badge-color: #2563eb;
+      background: linear-gradient(135deg, #2563eb, #3b82f6);
+      animation: badgeGlow 2s ease-in-out infinite;
+    }
+    
+    .badge-black .badge-visual {
+      --badge-color: #1f2937;
+      background: linear-gradient(135deg, #1f2937, #374151);
+      animation: badgeGlow 2s ease-in-out infinite 0.3s;
+    }
+    
+    .badge-gold .badge-visual {
+      --badge-color: #f59e0b;
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      animation: badgeGlow 2s ease-in-out infinite 0.6s;
+    }
+    
+    /* ===== STATISTIQUES ANIMÉES ===== */
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 4rem;
+      margin-top: 4rem;
+      flex-wrap: wrap;
+    }
+    
+    .stat {
+      text-align: center;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      border: 1px solid rgba(124, 58, 237, 0.2);
+      transition: all 0.3s ease;
+      min-width: 180px;
+    }
+    
+    .stat:hover {
+      transform: translateY(-10px);
+      background: rgba(124, 58, 237, 0.1);
+      border-color: #7c3aed;
+      box-shadow: 0 20px 40px rgba(124, 58, 237, 0.2);
+    }
+    
+    .stat-number {
+      font-size: 3.5rem;
+      font-weight: 900;
+      background: linear-gradient(45deg, #7c3aed, #2563eb);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 0.5rem;
+      position: relative;
+    }
+    
+    .stat-number::after {
+      content: '+';
+      position: absolute;
+      font-size: 2rem;
+      color: #7c3aed;
+    }
+    
+    /* ===== GRID DE FONCTIONNALITÉS AVANCÉES ===== */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    
+    .feature-card {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.8));
+      border-radius: 25px;
+      padding: 2.5rem;
+      border: 1px solid rgba(124, 58, 237, 0.3);
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(124, 58, 237, 0.1), transparent);
+      transition: left 0.6s ease;
+    }
+    
+    .feature-card:hover::before {
+      left: 100%;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-15px) scale(1.02);
+      border-color: #7c3aed;
+      box-shadow: 0 30px 60px rgba(124, 58, 237, 0.2);
+    }
+    
+    .feature-icon {
+      font-size: 3.5rem;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(45deg, #7c3aed, #2563eb);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: inline-block;
+    }
+    
+    /* ===== MONÉTISATION VIDÉO ===== */
+    .monetization-section {
+      background: linear-gradient(135deg, rgba(10, 14, 23, 0.9), rgba(26, 27, 75, 0.9));
+      border-radius: 30px;
+      padding: 4rem;
+      margin: 6rem 0;
+      position: relative;
+      overflow: hidden;
+      border: 2px solid transparent;
+      background-clip: padding-box;
+    }
+    
+    .monetization-section::before {
+      content: '';
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      bottom: -2px;
+      left: -2px;
+      z-index: -1;
+      border-radius: inherit;
+      background: linear-gradient(45deg, #7c3aed, #2563eb, #f59e0b);
+      opacity: 0.5;
+    }
+    
+    .earnings-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    
+    .earning-card {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      padding: 2rem;
+      text-align: center;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .earning-card:hover {
+      background: rgba(124, 58, 237, 0.1);
+      transform: translateY(-10px);
+      border-color: #7c3aed;
+    }
+    
+    .earning-amount {
+      font-size: 2.5rem;
+      font-weight: 900;
+      background: linear-gradient(45deg, #f59e0b, #d97706);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin: 1rem 0;
+    }
+    
+    /* ===== PLANS PREMIUM ÉLITE ===== */
+    .plans-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    
+    .plan-card {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9));
+      border-radius: 25px;
+      padding: 3rem 2rem;
+      border: 1px solid rgba(124, 58, 237, 0.3);
+      transition: all 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .plan-card.featured {
+      border: 2px solid #f59e0b;
+      transform: scale(1.05);
+      box-shadow: 0 40px 80px rgba(245, 158, 11, 0.2);
+    }
+    
+    .plan-card.featured::before {
+      content: '⭐ POPULAIRE';
+      position: absolute;
+      top: 20px;
+      right: -40px;
+      background: linear-gradient(45deg, #f59e0b, #d97706);
+      color: #1f2937;
+      padding: 0.5rem 3rem;
+      font-weight: 900;
+      font-size: 0.9rem;
+      transform: rotate(45deg);
+    }
+    
+    .plan-price {
+      font-size: 3.5rem;
+      font-weight: 900;
+      margin: 2rem 0;
+      background: linear-gradient(45deg, #ffffff, #c7d2fe);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .plan-price span {
+      font-size: 1rem;
+      color: #94a3b8;
+    }
+    
+    /* ===== SECTION APPEL À L'ACTION ===== */
+    .cta {
+      background: linear-gradient(135deg, #7c3aed, #2563eb);
+      border-radius: 30px;
+      padding: 6rem 2rem;
+      margin: 6rem 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .cta::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100"><path fill="rgba(255,255,255,0.1)" d="M0,50 Q250,0 500,50 T1000,50 V100 H0 Z"/></svg>') bottom center/100% auto no-repeat;
+    }
+    
+    /* ===== PIED DE PAGE PROFESSIONNEL ===== */
+    .footer {
+      background: linear-gradient(135deg, #0a0e17 0%, #1a1b4b 100%);
+      padding: 6rem 0 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #7c3aed, #2563eb, #f59e0b, transparent);
+    }
+    
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 4rem;
+      margin-bottom: 4rem;
+    }
+    
+    .footer-column h3 {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+      background: linear-gradient(45deg, #ffffff, #c7d2fe);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    
+    .social-links a {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #c7d2fe;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+    }
+    
+    .social-links a:hover {
+      background: linear-gradient(45deg, #7c3aed, #2563eb);
+      color: white;
+      transform: translateY(-5px);
+    }
+    
+    /* ===== RESPONSIVE DESIGN ===== */
+    @media (max-width: 1200px) {
+      .hero-title { font-size: 3rem; }
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    
+    @media (max-width: 768px) {
+      .nav { display: none; }
+      .hero-title { font-size: 2.5rem; }
+      .hero-description { font-size: 1.2rem; }
+      .hero-buttons { flex-direction: column; }
+      .features-grid { grid-template-columns: 1fr; }
+      .badge-showcase { gap: 2rem; }
+      .hero-stats { gap: 1rem; }
+      .stat { min-width: 140px; padding: 1.5rem; }
+      .plan-card.featured { transform: none; }
+    }
+    
+    @media (max-width: 480px) {
+      .hero-title { font-size: 2rem; }
+      .logo h1 { font-size: 1.5rem; }
+      .badge-visual { width: 80px; height: 80px; font-size: 2rem; }
+      .feature-card { padding: 2rem; }
+      .monetization-section { padding: 2rem; }
+    }
+  </style>
 </head>
 <body>
-  <!-- Splash Screen -->
+  <!-- Splash Screen Divine -->
   <div id="splash-screen" class="splash-screen">
     <div class="splash-content">
       <div class="splash-logo">
-        <i class="fas fa-star"></i>
+        <i class="fas fa-brain"></i>
       </div>
       <h1 class="splash-title">ELOSYA</h1>
-      <p class="splash-tagline">Connectez-vous à l'excellence</p>
+      <p class="splash-tagline">Plateforme Sociale Nouvelle Génération</p>
       <div class="splash-loader"></div>
     </div>
   </div>
 
-  <!-- Main App -->
+  <!-- Application Principale -->
   <div id="main-app" class="main-app" style="display: none;">
-    <!-- Header -->
+    <!-- En-tête Fixe -->
     <header class="header">
       <div class="container">
         <div class="header-content">
-          <div class="logo">
-            <i class="fas fa-star logo-icon"></i>
+          <a href="index.html" class="logo">
+            <i class="fas fa-brain logo-icon"></i>
             <h1>ELOSYA</h1>
-          </div>
+          </a>
+          
+          <!-- Navigation Principale -->
           <nav class="nav">
             <ul>
               <li><a href="index.html" class="active"><i class="fas fa-home"></i> Accueil</a></li>
+              <li><a href="lam-ai.html"><i class="fas fa-robot"></i> LAM.AI</a></li>
+              <li><a href="video-upload.html"><i class="fas fa-video"></i> Vidéos</a></li>
               <li><a href="community.html"><i class="fas fa-users"></i> Communauté</a></li>
-              <li><a href="reading.html"><i class="fas fa-book"></i> Lecture</a></li>
+              <li><a href="wallet.html"><i class="fas fa-wallet"></i> Portefeuille</a></li>
               <li><a href="premium.html"><i class="fas fa-crown"></i> Premium</a></li>
-              <li><a href="chat.html"><i class="fas fa-comments"></i> Messages</a></li>
             </ul>
           </nav>
+
+          <!-- Actions Utilisateur -->
           <div class="header-actions">
-            <a href="login.html" class="btn btn-outline">Connexion</a>
-            <a href="register.html" class="btn btn-primary">Inscription</a>
+            <a href="login.html" class="btn btn-outline"><i class="fas fa-sign-in-alt"></i> Connexion</a>
+            <a href="register.html" class="btn btn-primary"><i class="fas fa-user-plus"></i> Inscription</a>
           </div>
-          <div class="mobile-menu">
+
+          <!-- Menu Mobile -->
+          <div class="mobile-menu" id="mobileMenu">
             <i class="fas fa-bars"></i>
           </div>
         </div>
       </div>
     </header>
 
-    <!-- Hero Section -->
+    <!-- Section Héroïque -->
     <section class="hero">
       <div class="container">
         <div class="hero-content">
           <h2 class="hero-title">Bienvenue sur <span class="gradient-text">ELOSYA</span></h2>
-          <p class="hero-description">La plateforme sociale qui combine réseau social, lecture, IA et bien-être. Rejoignez une communauté bienveillante et innovante.</p>
+          <p class="hero-description">
+            La première plateforme sociale qui combine <strong>IA avancée</strong>, <strong>monétisation vidéo</strong>, 
+            <strong>communauté bien-être</strong> et <strong>portefeuille multi-devises</strong>. 
+            Concurrencez TikTok et Instagram avec une expérience unique.
+          </p>
+          
           <div class="hero-buttons">
-            <a href="register.html" class="btn btn-primary btn-lg">Commencer gratuitement</a>
-            <a href="#features" class="btn btn-outline btn-lg">Découvrir</a>
+            <a href="register.html" class="btn btn-primary btn-lg">
+              <i class="fas fa-rocket"></i> Commencer Gratuitement
+            </a>
+            <a href="lam-ai.html" class="btn btn-outline btn-lg">
+              <i class="fas fa-robot"></i> Essayer LAM.AI
+            </a>
           </div>
-          <div class="hero-stats">
-            <div class="stat">
-              <div class="stat-number">10K+</div>
-              <div class="stat-label">Utilisateurs</div>
-            </div>
-            <div class="stat">
-              <div class="stat-number">5K+</div>
-              <div class="stat-label">Livres</div>
-            </div>
-            <div class="stat">
-              <div class="stat-number">50+</div>
-              <div class="stat-label">Communautés</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
 
-    <!-- Features Section -->
-    <section id="features" class="features">
-      <div class="container">
-        <div class="section-header">
-          <h2 class="section-title">Fonctionnalités principales</h2>
-          <p class="section-subtitle">Découvrez tout ce qu'Elosya a à vous offrir</p>
-        </div>
-        <div class="features-grid">
-          <div class="feature-card">
-            <div class="feature-icon">
-              <i class="fas fa-users"></i>
+          <!-- Système de Badges -->
+          <div class="badge-showcase">
+            <div class="badge-item badge-blue">
+              <div class="badge-visual">🔵</div>
+              <h4>Badge Bleu</h4>
+              <p>Vérifié (KYC + 10K+ followers)</p>
             </div>
-            <h3>Communauté</h3>
-            <p>Rejoignez des groupes de discussion, partagez vos expériences et soutenez-vous mutuellement dans un environnement bienveillant.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">
-              <i class="fas fa-book-open"></i>
+            <div class="badge-item badge-black">
+              <div class="badge-visual">⚫</div>
+              <h4>Badge Noir</h4>
+              <p>Premium (99,99€/an)</p>
             </div>
-            <h3>Bibliothèque</h3>
-            <p>Accédez à des milliers de livres gratuits et premium. Lisez, découvrez et partagez vos histoires préférées.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">
-              <i class="fas fa-robot"></i>
-            </div>
-            <h3>Assistant IA</h3>
-            <p>Discutez avec notre IA bienveillante pour obtenir du soutien, des conseils et des réponses à vos questions.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">
-              <i class="fas fa-comments"></i>
-            </div>
-            <h3>Messagerie</h3>
-            <p>Communiquez en temps réel avec vos amis et votre communauté via notre système de messagerie sécurisé.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">
-              <i class="fas fa-crown"></i>
-            </div>
-            <h3>Premium</h3>
-            <p>Débloquez des fonctionnalités exclusives, des badges spéciaux et une expérience sans publicité.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">
-              <i class="fas fa-gift"></i>
-            </div>
-            <h3>Parrainage</h3>
-            <p>Invitez vos amis et gagnez des récompenses, cashback et remises sur vos abonnements premium.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Premium Plans -->
-    <section class="premium-plans">
-      <div class="container">
-        <div class="section-header">
-          <h2 class="section-title">Abonnements Premium</h2>
-          <p class="section-subtitle">Choisissez le plan qui vous convient</p>
-        </div>
-        <div class="plans-grid">
-          <div class="plan-card">
-            <div class="plan-badge">Hebdomadaire</div>
-            <div class="plan-price">2,99€<span>/semaine</span></div>
-            <ul class="plan-features">
-              <li><i class="fas fa-check"></i> Sans publicité</li>
-              <li><i class="fas fa-check"></i> Badge Premium</li>
-              <li><i class="fas fa-check"></i> Livres exclusifs</li>
-              <li><i class="fas fa-check"></i> Support prioritaire</li>
-            </ul>
-            <a href="premium.html" class="btn btn-primary">Choisir</a>
-          </div>
-          <div class="plan-card featured">
-            <div class="plan-badge popular">Populaire</div>
-            <div class="plan-price">9,99€<span>/mois</span></div>
-            <ul class="plan-features">
-              <li><i class="fas fa-check"></i> Tout du plan hebdo</li>
-              <li><i class="fas fa-check"></i> Économisez 50%</li>
-              <li><i class="fas fa-check"></i> Accès IA illimité</li>
-              <li><i class="fas fa-check"></i> Monétisation contenu</li>
-            </ul>
-            <a href="premium.html" class="btn btn-primary">Choisir</a>
-          </div>
-          <div class="plan-card">
-            <div class="plan-badge">Trimestriel</div>
-            <div class="plan-price">24,99€<span>/3 mois</span></div>
-            <ul class="plan-features">
-              <li><i class="fas fa-check"></i> Tout du plan mensuel</li>
-              <li><i class="fas fa-check"></i> Économisez 65%</li>
-              <li><i class="fas fa-check"></i> Badge exclusif</li>
-              <li><i class="fas fa-check"></i> Cashback 5%</li>
-            </ul>
-            <a href="premium.html" class="btn btn-primary">Choisir</a>
-          </div>
-          <div class="plan-card">
-            <div class="plan-badge">Annuel</div>
-            <div class="plan-price">79,99€<span>/an</span></div>
-            <ul class="plan-features">
-              <li><i class="fas fa-check"></i> Tout du plan trimestriel</li>
-              <li><i class="fas fa-check"></i> Économisez 73%</li>
-              <li><i class="fas fa-check"></i> Badge VIP</li>
-              <li><i class="fas fa-check"></i> Cashback 10%</li>
-            </ul>
-            <a href="premium.html" class="btn btn-primary">Choisir</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="cta">
-      <div class="container">
-        <div class="cta-content">
-          <h2>Prêt à rejoindre Elosya ?</h2>
-          <p>Créez votre compte gratuitement et découvrez une nouvelle façon de vous connecter</p>
-          <a href="register.html" class="btn btn-primary btn-lg">Créer mon compte</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-      <div class="container">
-        <div class="footer-content">
-          <div class="footer-column">
-            <h3>ELOSYA</h3>
-            <p>La plateforme sociale nouvelle génération qui combine réseau social, lecture, IA et bien-être.</p>
-            <div class="social-links">
-              <a href="#"><i class="fab fa-facebook"></i></a>
-              <a href="#"><i class="fab fa-twitter"></i></a>
-              <a href="#"><i class="fab fa-instagram"></i></a>
-              <a href="#"><i class="fab fa-linkedin"></i></a>
-            </div>
-          </div>
-          <div class="footer-column">
-            <h3>Navigation</h3>
-            <ul class="footer-links">
-              <li><a href="index.html">Accueil</a></li>
-              <li><a href="community.html">Communauté</a></li>
-              <li><a href="reading.html">Lecture</a></li>
-              <li><a href="premium.html">Premium</a></li>
-            </ul>
-          </div>
-          <div class="footer-column">
-            <h3>Légal</h3>
-            <ul class="footer-links">
-              <li><a href="terms.html">Conditions d'utilisation</a></li>
-              <li><a href="privacy.html">Politique de confidentialité</a></li>
-              <li><a href="rules.html">Règles de la communauté</a></li>
-              <li><a href="contact.html">Contact</a></li>
-            </ul>
-          </div>
-          <div class="footer-column">
-            <h3>Support</h3>
-            <ul class="footer-links">
-              <li><a href="help.html">Centre d'aide</a></li>
-              <li><a href="faq.html">FAQ</a></li>
-              <li><a href="report.html">Signaler un problème</a></li>
-              <li><a href="admin.html">Admin</a></li>
-            </ul>
-          </div>
-        </div>
-        <div class="footer-bottom">
-          <p>&copy; 2025 Elosya - Tous droits réservés</p>
-        </div>
-      </div>
-    </footer>
-  </div>
-
-  <script src="script.js"></script>
-</body>
-</html>
+            <div class="bad
