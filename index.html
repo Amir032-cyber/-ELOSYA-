@@ -1083,10 +1083,7 @@
           },
           retina_detect: true
         });
-      });
-    </script>
-  </body>
-  </html>
+    
 <!-- Page d'upload vidéo (video-upload.html) -->
 <!DOCTYPE html>
 <html>
@@ -1107,6 +1104,27 @@
             const file = document.getElementById('videoInput').files[0];
             // Upload vers serveur/cloud
         }
+      async callOpenAI(messages) {
+    const response = await fetch('http://localhost:3001/api/ai/chat', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-User-ID': this.getUserId() // À implémenter
+        },
+        body: JSON.stringify({
+            messages: messages,
+            model: this.currentModel,
+            temperature: 0.7
+        })
+    });
+    
+    if (!response.ok) {
+        throw new Error('Erreur serveur');
+    }
+    
+    const data = await response.json();
+    return data.message;
+      }
     </script>
 </body>
 </html>
