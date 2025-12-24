@@ -1087,3 +1087,26 @@
     </script>
   </body>
   </html>
+<!-- Page d'upload vidéo (video-upload.html) -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload Vidéo - Elosya</title>
+</head>
+<body>
+    <!-- Formulaire d'upload -->
+    <div class="upload-container">
+        <input type="file" accept="video/*" id="videoInput">
+        <textarea placeholder="Description..."></textarea>
+        <button onclick="uploadVideo()">Publier</button>
+    </div>
+    
+    <script>
+        // Upload vers backend
+        async function uploadVideo() {
+            const file = document.getElementById('videoInput').files[0];
+            // Upload vers serveur/cloud
+        }
+    </script>
+</body>
+</html>
