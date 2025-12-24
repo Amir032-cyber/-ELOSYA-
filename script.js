@@ -2920,4 +2920,280 @@ class VideoFeed {
         }
     }
     
+    // ==== ACTIONS UTILISATEUR ====
+    changeFile() {
+        this.fileInput.click();
+    }
+
+    clearFile() {
+        this.resetUpload();
+    }
+
+    async submitForm() {
+        if (!this.file) {
+            showNotification('Veuillez sélectionner une vidéo', 'error');
+            return;
+        }
+
+        // Validation du formulaire
+        if (!this.validateForm()) {
+            return;
+        }
+
+        // Désactiver le formulaire
+        this.disableForm(true);
+
+        // Démarrer l'upload
+        await this.startChunkedUpload();
+    }
+
+    validateForm() {
+        const title = document.getElementById('videoTitle').value.trim();
+        const description = document.getElementById('videoDescription').value.trim();
+        const category = document.getElementById('videoCategory').value;
+
+        if (!title || title.length < 5) {
+            showNotification('Le titre doit faire au moins 5 caractères', 'error');
+            return false;
+        }
+
+        if (title.length > 100) {
+            showNotification('Le titre ne doit pas dépasser 100 caractères', 'error');
+            return false;
+        }
+
+        if (!description || description.length < 20) {
+            showNotification('La description doit faire au moins 20 caractères', 'error');
+            return false;
+        }
+
+        if (!category) {
+            showNotification('Veuillez sélectionner une catégorie', 'error');
+            return false;
+        }
+
+        return true;
+    }
+
+    disableForm(disabled) {
+        const inputs = this.uploadForm.querySelectorAll('input, textarea, select, button');
+        inputs.forEach(input => {
+            if (input.id !== 'cancelUpload') {
+                input.disabled = disabled;
+            }
+        });
+
+        const uploadBtn = document.querySelector('.upload-btn');
+        if (uploadBtn) {
+            if (disabled) {
+                uploadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Upload en cours...';
+                uploadBtn.disabled = true;
+            } else {
+                uploadBtn.innerHTML = '<i class="fas fa-upload"></i> Publier la vidéo';
+                uploadBtn.disabled = false;
+            }
+        }
+    }
+
+    showEarningsDetails() {
+        // Ouvrir une modale avec les détails des gains
+        showModal('details-gains', {
+            title: 'Détails des gains estimés',
+            content: this.generateEarningsDetailsHTML(),
+            size: 'lg'
+        });
+    }
+
+    generateEarningsDetailsHTML() {
+        return `
+            <div class="earnings-details">
+                <h5>Comment sont calculés vos gains?</h5>
+                
+                <div class="factors-list">
+                    <div class="factor-item">
+                        <strong>Base de rémunération:</strong>
+                        <p>${ELOSYA_CONFIG.BASE_EARNINGS_RATE}€ par 1000 vues</p>
+                    </div>
+                    
+                    <div class="factor-item">
+                        <strong>Qualité vidéo:</strong>
+                        <p>4K: x1.5 | Full HD: x1.3 | HD: x1.1 | SD: x1.0</p>
+                    </div>
+                    
+                    <div class="factor-item">
+                        <strong>Durée:</strong>
+                        <p>>10 min: x1.5 | 5-10 min: x1.3 | 2-5 min: x1.1 | 1-2 min: x1.0</p>
+                    </div>
+                    
+                    <div class="factor-item">
+                        <strong>Statut créateur:</strong>
+                        <p>Partner: x2.5 | Premium: x2.0 | Vérifié: x1.5 | Basique: x1.0</p>
+                    </div>
+                    
+                    <div class="factor-item">
+                        <strong>Engagement:</strong>
+                        <p>Retention rate, likes, commentaires, partages</p>
+                    </div>
+                </div>
+                
+                <div class="earnings-example">
+                    <h6>Exemple de calcul:</h6>
+                    <p>10,000 vues × 0.01€ × 1.3 (Full HD) × 1.3 (8 min) × 1.5 (vérifié) = 25.35€</p>
+                </div>
+                
+                <div class="note">
+                    <small><i class="fas fa-info-circle"></i> Ces gains sont une estimation. Les gains réels peuvent varier.</small>
+                </div>
+            </div>
+        `;
+    }
+
+    // ==== FONCTIONS UTILITAIRES ====
+    delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    getToken() {
+        return localStorage.getItem('elosya_token') || sessionStorage.getItem('elosya_token');
+    }
+
+    // ==== INITIALISATION GLOBALE ====
+    static init() {
+        if (window.videoUploader) {
+            return window.videoUploader;
+        }
+
+        window.videoUploader = new VideoUploader();
+        window.videoUploader.init();
+
+        return window.videoUploader;
+    }
+}
+
+// ==== FONCTIONS GLOBALES D'ASSISTANCE ====
+function showNotification(message, type = 'info') {
+    // Créer ou réutiliser une notification
+    let notificationContainer = document.getElementById('notification-container');
+    
+    if (!notificationContainer) {
+        notificationContainer = document.createElement('div');
+        notificationContainer.id = 'notification-container';
+        notificationContainer.className = 'notification-container';
+        document.body.appendChild(notificationContainer);
+    }
+
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.innerHTML = `
+        <div class="notification-content">
+            <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'}"></i>
+            <span>${message}</span>
+        </div>
+        <button class="notification-close" onclick="this.parentElement.remove()">
+            <i class="fas fa-times"></i>
+        </button>
+    `;
+
+    notificationContainer.appendChild(notification);
+
+    // Auto-remove après 5 secondes
+    setTimeout(() => {
+        if (notification.parentNode) {
+            notification.remove();
+        }
+    }, 5000);
+}
+
+function showModal(id, options = {}) {
+    const { title = '', content = '', size = 'md' } = options;
+    
+    // Créer la modale
+    const modal = document.createElement('div');
+    modal.id = `modal-${id}`;
+    modal.className = 'modal-overlay';
+    modal.innerHTML = `
+        <div class="modal modal-${size}">
+            <div class="modal-header">
+                <h3>${title}</h3>
+                <button class="modal-close" onclick="closeModal('${id}')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                ${content}
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('${id}')">
+                    Fermer
+                </button>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+    document.body.style.overflow = 'hidden';
+
+    // Focus sur la modale
+    setTimeout(() => {
+        modal.classList.add('show');
+    }, 10);
+}
+
+function closeModal(id) {
+    const modal = document.getElementById(`modal-${id}`);
+    if (modal) {
+        modal.classList.remove('show');
+        setTimeout(() => {
+            modal.remove();
+            document.body.style.overflow = '';
+        }, 300);
+    }
+}
+
+// ==== CONFIGURATION GLOBALE ====
+const ELOSYA_CONFIG = {
+    API_URL: 'https://api.elosya.com/v1',
+    BASE_EARNINGS_RATE: 0.01,
+    VIDEO_LIMIT: 500 * 1024 * 1024, // 500MB
+    MAX_TITLE_LENGTH: 100,
+    MAX_DESCRIPTION_LENGTH: 5000,
+    MAX_HASHTAGS: 10,
+    SUPPORTED_VIDEO_TYPES: ['video/mp4', 'video/mov', 'video/avi', 'video/webm', 'video/quicktime']
+};
+
+// ==== INITIALISATION AUTOMATIQUE ====
+if (document.getElementById('uploadForm')) {
+    document.addEventListener('DOMContentLoaded', () => {
+        VideoUploader.init();
+        
+        // Ajouter des écouteurs d'événements globaux
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const openModals = document.querySelectorAll('.modal-overlay.show');
+                if (openModals.length > 0) {
+                    closeModal(openModals[0].id.replace('modal-', ''));
+                }
+            }
+        });
+    });
+}
+
+// ==== EXPORT POUR LES MODULES ====
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        VideoUploader,
+        ELOSYA_CONFIG,
+        showNotification,
+        showModal,
+        closeModal
+    };
+}
+
+// ==== EXPORT GLOBAL ====
+window.VideoUploader = VideoUploader;
+window.showNotification = showNotification;
+window.showModal = showModal;
+window.closeModal = closeModal;
+window.ELOSYA_CONFIG = ELOSYA_CONFIG;
+
 
