@@ -1,0 +1,18 @@
+# Configuration Elosya AI Backend
+PORT=3001
+NODE_ENV=production
+
+# Clé API OpenAI (NE JAMAIS LA COMMITER !)
+OPENAI_API_KEY=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
+
+# Sécurité
+CORS_ORIGIN=http://localhost:3000
+RATE_LIMIT_WINDOW_MS=900000
+RATE_LIMIT_MAX_REQUESTS=100
+
+# Base de données (optionnel)
+# DB_HOST=localhost
+# DB_PORT=5432
+# DB_NAME=elosya_ai
+# DB_USER=postgres
+# DB_PASSWORD=ton_mot_de_passe
