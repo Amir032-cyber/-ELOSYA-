@@ -108,3 +108,101 @@ function logout() {
 
 // Initialize auth state
 updateHeaderAuth();
+// upload.js
+class VideoUploader {
+    constructor() {
+        this.chunkSize = 1024 * 1024; // 1MB chunks
+        this.maxRetries = 3;
+    }
+    
+    async uploadVideo(file, onProgress) {
+        const totalChunks = Math.ceil(file.size / this.chunkSize);
+        let uploadedChunks = 0;
+        
+        // Générer ID unique
+        const uploadId = this.generateUploadId();
+        
+        for (let chunkIndex = 0; chunkIndex < totalChunks; chunkIndex++) {
+            const start = chunkIndex * this.chunkSize;
+            const end = Math.min(start + this.chunkSize, file.size);
+            const chunk = file.slice(start, end);
+            
+            let retries = 0;
+            let success = false;
+            
+            while (retries < this.maxRetries && !success) {
+                try {
+                    await this.uploadChunk(uploadId, chunk, chunkIndex, totalChunks);
+                    success = true;
+                    uploadedChunks++;
+                    
+                    // Mettre à jour progression
+                    const progress = (uploadedChunks / totalChunks) * 100;
+                    onProgress(progress);
+                    
+                } catch (error) {
+                    retries++;
+                    if (retries === this.maxRetries) {
+                        throw new Error(`Échec upload chunk ${chunkIndex}: ${error.message}`);
+                    }
+                    // Attente exponentielle
+                    await this.sleep(1000 * Math.pow(2, retries));
+                }
+            }
+        }
+        
+        // Finaliser upload
+        return await this.finalizeUpload(uploadId, file.name, file.type);
+    }
+    
+    async uploadChunk(uploadId, chunk, chunkIndex, totalChunks) {
+        const formData = new FormData();
+        formData.append('uploadId', uploadId);
+        formData.append('chunk', chunk);
+        formData.append('chunkIndex', chunkIndex);
+        formData.append('totalChunks', totalChunks);
+        
+        const response = await fetch('/api/upload/chunk', {
+            method: 'POST',
+            body: formData
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+        
+        return response.json();
+    }
+    
+    async finalizeUpload(uploadId, fileName, fileType) {
+        const response = await fetch('/api/upload/finalize', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                uploadId,
+                fileName,
+                fileType,
+                timestamp: Date.now()
+            })
+        });
+        
+        if (!response.ok) {
+            throw new Error('Échec finalisation');
+        }
+        
+        return response.json();
+    }
+    
+    generateUploadId() {
+        return 'upload_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    }
+    
+    sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+}
+
+// Export pour utilisation
+if (typeof module !== 'undefined') {
+    module.exports = VideoUploader;
+    }
