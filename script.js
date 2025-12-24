@@ -3199,32 +3199,7 @@ window.ELOSYA_CONFIG = ELOSYA_CONFIG;
 // ===== INTÉGRATION IA POUR ELOSYA =====
 // Fichier d'intégration de l'IA Lam.AI dans la plateforme Elosya
 
-class ElosyaAIChat {
-    constructor() {
-        this.API_KEY = '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';
-        this.API_URL = 'https://api.openai.com/v1/chat/completions';
-        
-        this.currentModel = 'gpt-3.5-turbo';
-        this.conversationHistory = [];
-        this.isTyping = false;
-        this.currentChatId = this.generateChatId();
-        
-        this.availableModels = {
-            'gpt-3.5': 'gpt-3.5-turbo',
-            'gpt-4': 'gpt-4',
-            'gpt-4-turbo': 'gpt-4-turbo-preview'
-        };
-        
-        this.systemPrompt = `Tu es Lam.AI, l'assistant IA intégré à Elosya, une plateforme vidéo française.
-        Règles :
-        1. Réponds toujours en français sauf demande contraire
-        2. Sois professionnel, utile et créatif
-        3. Aide avec les sujets vidéo, création de contenu, marketing, technique
-        4. Recommande du contenu Elosya quand c'est pertinent
-        5. Propose des idées pour améliorer les vidéos des créateurs
-        6. Formate tes réponses avec des listes, titres et emojis quand c'est utile
-        7. Sois enthousiaste et encourageant !`;
-    }
+
     
     // ===== INITIALISATION =====
     async init() {
