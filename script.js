@@ -3196,4 +3196,1006 @@ window.showModal = showModal;
 window.closeModal = closeModal;
 window.ELOSYA_CONFIG = ELOSYA_CONFIG;
 
+// ===== INTÉGRATION IA POUR ELOSYA =====
+// Fichier d'intégration de l'IA Lam.AI dans la plateforme Elosya
 
+class ElosyaAIChat {
+    constructor() {
+        this.API_KEY = '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';
+        this.API_URL = 'https://api.openai.com/v1/chat/completions';
+        
+        this.currentModel = 'gpt-3.5-turbo';
+        this.conversationHistory = [];
+        this.isTyping = false;
+        this.currentChatId = this.generateChatId();
+        
+        this.availableModels = {
+            'gpt-3.5': 'gpt-3.5-turbo',
+            'gpt-4': 'gpt-4',
+            'gpt-4-turbo': 'gpt-4-turbo-preview'
+        };
+        
+        this.systemPrompt = `Tu es Lam.AI, l'assistant IA intégré à Elosya, une plateforme vidéo française.
+        Règles :
+        1. Réponds toujours en français sauf demande contraire
+        2. Sois professionnel, utile et créatif
+        3. Aide avec les sujets vidéo, création de contenu, marketing, technique
+        4. Recommande du contenu Elosya quand c'est pertinent
+        5. Propose des idées pour améliorer les vidéos des créateurs
+        6. Formate tes réponses avec des listes, titres et emojis quand c'est utile
+        7. Sois enthousiaste et encourageant !`;
+    }
+    
+    // ===== INITIALISATION =====
+    async init() {
+        console.log('🤖 Initialisation Lam.AI pour Elosya...');
+        
+        try {
+            this.setupEventListeners();
+            this.loadChatHistory();
+            this.updateModelDisplay();
+            
+            // Vérifier la connexion API
+            const isConnected = await this.testConnection();
+            if (isConnected) {
+                this.showNotification('✅ Lam.AI connecté et prêt à aider !', 'success');
+                console.log('✅ Lam.AI initialisé avec succès');
+            } else {
+                this.showNotification('⚠️ Connexion API limitée', 'warning');
+            }
+            
+        } catch (error) {
+            console.error('❌ Erreur initialisation IA:', error);
+            this.showNotification('❌ Erreur connexion IA', 'error');
+        }
+    }
+    
+    // ===== ÉVÉNEMENTS =====
+    setupEventListeners() {
+        // Envoi de message
+        const sendBtn = document.getElementById('send-btn');
+        const chatInput = document.getElementById('chat-input');
+        
+        if (sendBtn && chatInput) {
+            sendBtn.addEventListener('click', () => this.sendMessage());
+            
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    this.sendMessage();
+                }
+            });
+            
+            chatInput.addEventListener('input', () => {
+                this.autoResizeTextarea(chatInput);
+            });
+        }
+        
+        // Changement de modèle
+        const modelSelect = document.getElementById('model-select');
+        if (modelSelect) {
+            modelSelect.addEventListener('change', (e) => {
+                this.changeModel(e.target.value);
+            });
+        }
+        
+        // Nouveau chat
+        const newChatBtn = document.getElementById('new-chat-btn');
+        if (newChatBtn) {
+            newChatBtn.addEventListener('click', () => this.startNewChat());
+        }
+        
+        // Fonctions Pro
+        const proFeaturesBtn = document.getElementById('pro-features-btn');
+        if (proFeaturesBtn) {
+            proFeaturesBtn.addEventListener('click', () => this.showProFeatures());
+        }
+        
+        // Upgrade
+        const upgradeBtn = document.getElementById('upgrade-btn');
+        if (upgradeBtn) {
+            upgradeBtn.addEventListener('click', () => this.showUpgradeModal());
+        }
+        
+        // Historique
+        const historyBtn = document.getElementById('history-btn');
+        if (historyBtn) {
+            historyBtn.addEventListener('click', () => this.toggleHistory());
+        }
+    }
+    
+    // ===== ENVOI DE MESSAGE =====
+    async sendMessage() {
+        const input = document.getElementById('chat-input');
+        const message = input.value.trim();
+        
+        if (!message || this.isTyping) return;
+        
+        // Ajouter le message utilisateur à l'interface
+        this.addMessageToUI(message, 'user');
+        
+        // Sauvegarder dans l'historique
+        this.conversationHistory.push({
+            role: 'user',
+            content: message,
+            timestamp: new Date().toISOString()
+        });
+        
+        // Vider l'input
+        input.value = '';
+        this.autoResizeTextarea(input);
+        
+        // Afficher l'indicateur de saisie
+        this.showTypingIndicator();
+        
+        try {
+            // Appeler l'API OpenAI
+            const response = await this.callOpenAI(this.conversationHistory);
+            
+            // Ajouter la réponse à l'interface
+            this.addMessageToUI(response, 'ai');
+            
+            // Sauvegarder la réponse dans l'historique
+            this.conversationHistory.push({
+                role: 'assistant',
+                content: response,
+                timestamp: new Date().toISOString()
+            });
+            
+            // Sauvegarder la conversation
+            this.saveConversation();
+            
+        } catch (error) {
+            console.error('❌ Erreur API:', error);
+            this.addMessageToUI(
+                "Désolé, une erreur s'est produite. Veuillez réessayer ou vérifier votre connexion.",
+                'ai'
+            );
+        } finally {
+            // Retirer l'indicateur de saisie
+            this.removeTypingIndicator();
+        }
+    }
+    
+    // ===== APPEL API OPENAI =====
+    async callOpenAI(messages) {
+        const requestBody = {
+            model: this.currentModel,
+            messages: [
+                { role: 'system', content: this.systemPrompt },
+                ...messages.map(msg => ({
+                    role: msg.role,
+                    content: msg.content
+                }))
+            ],
+            temperature: 0.7,
+            max_tokens: 2000,
+            top_p: 0.9,
+            frequency_penalty: 0,
+            presence_penalty: 0
+        };
+        
+        const response = await fetch(this.API_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${this.API_KEY}`
+            },
+            body: JSON.stringify(requestBody)
+        });
+        
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error?.message || 'Erreur API');
+        }
+        
+        const data = await response.json();
+        return data.choices[0].message.content;
+    }
+    
+    // ===== GESTION DE L'INTERFACE =====
+    addMessageToUI(content, sender) {
+        const messagesContainer = document.getElementById('chat-messages');
+        if (!messagesContainer) return;
+        
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${sender}-message fade-in`;
+        
+        const icon = sender === 'user' ? 'fa-user' : 'fa-brain';
+        const iconColor = sender === 'user' ? 'user-icon' : 'ai-icon';
+        const senderName = sender === 'user' ? 'Vous' : 'Lam.AI';
+        
+        messageDiv.innerHTML = `
+            <div class="message-header">
+                <i class="fas ${icon} ${iconColor} message-icon"></i>
+                <strong>${senderName}</strong>
+            </div>
+            <div class="message-content">
+                ${this.formatMessage(content)}
+            </div>
+        `;
+        
+        messagesContainer.appendChild(messageDiv);
+        
+        // Scroll vers le bas
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+    
+    formatMessage(content) {
+        // Formater le markdown simple
+        let formatted = content
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\*(.*?)\*/g, '<em>$1</em>')
+            .replace(/`(.*?)`/g, '<code>$1</code>')
+            .replace(/\n\n/g, '<br><br>')
+            .replace(/\n/g, '<br>');
+        
+        // Ajouter des classes pour les listes
+        formatted = formatted.replace(/^\d+\.\s(.*)$/gm, '<li>$1</li>');
+        if (formatted.includes('<li>')) {
+            formatted = formatted.replace(/(<li>.*<\/li>)/s, '<ol>$1</ol>');
+        }
+        
+        return formatted;
+    }
+    
+    showTypingIndicator() {
+        this.isTyping = true;
+        
+        const messagesContainer = document.getElementById('chat-messages');
+        if (!messagesContainer) return;
+        
+        const typingDiv = document.createElement('div');
+        typingDiv.id = 'typing-indicator';
+        typingDiv.className = 'message ai-message fade-in';
+        typingDiv.innerHTML = `
+            <div class="message-header">
+                <i class="fas fa-brain ai-icon message-icon"></i>
+                <strong>Lam.AI</strong>
+            </div>
+            <div class="message-content typing">
+                <span class="dot pulse"></span>
+                <span class="dot pulse" style="animation-delay: 0.2s"></span>
+                <span class="dot pulse" style="animation-delay: 0.4s"></span>
+            </div>
+        `;
+        
+        messagesContainer.appendChild(typingDiv);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+    
+    removeTypingIndicator() {
+        this.isTyping = false;
+        const typingIndicator = document.getElementById('typing-indicator');
+        if (typingIndicator) {
+            typingIndicator.remove();
+        }
+    }
+    
+    // ===== GESTION DES MODÈLES =====
+    changeModel(modelKey) {
+        const model = this.availableModels[modelKey];
+        if (model && model !== this.currentModel) {
+            this.currentModel = model;
+            this.updateModelDisplay();
+            this.showNotification(`Modèle changé: ${modelKey}`, 'info');
+        }
+    }
+    
+    updateModelDisplay() {
+        const modelSelect = document.getElementById('model-select');
+        if (!modelSelect) return;
+        
+        // Trouver la clé correspondant au modèle actuel
+        const currentKey = Object.keys(this.availableModels).find(
+            key => this.availableModels[key] === this.currentModel
+        );
+        
+        if (currentKey && modelSelect.value !== currentKey) {
+            modelSelect.value = currentKey;
+        }
+    }
+    
+    // ===== GESTION DES CONVERSATIONS =====
+    startNewChat() {
+        if (this.conversationHistory.length > 0) {
+            this.saveConversation();
+        }
+        
+        this.currentChatId = this.generateChatId();
+        this.conversationHistory = [];
+        
+        const messagesContainer = document.getElementById('chat-messages');
+        if (messagesContainer) {
+            messagesContainer.innerHTML = `
+                <div class="message ai-message fade-in">
+                    <div class="message-header">
+                        <i class="fas fa-brain ai-icon message-icon"></i>
+                        <strong>Lam.AI</strong>
+                    </div>
+                    <div class="message-content">
+                        Bonjour ! Je suis Lam.AI, votre assistant IA intégré à Elosya. 
+                        Comment puis-je vous aider avec votre plateforme vidéo aujourd'hui ?
+                    </div>
+                </div>
+            `;
+        }
+        
+        this.showNotification('Nouvelle conversation démarrée', 'info');
+    }
+    
+    generateChatId() {
+        return `chat_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    }
+    
+    saveConversation() {
+        if (this.conversationHistory.length === 0) return;
+        
+        const conversation = {
+            id: this.currentChatId,
+            title: this.generateConversationTitle(),
+            messages: [...this.conversationHistory],
+            model: this.currentModel,
+            timestamp: new Date().toISOString(),
+            updatedAt: new Date().toISOString()
+        };
+        
+        // Sauvegarder dans localStorage
+        let savedChats = JSON.parse(localStorage.getItem('elosya_ai_chats') || '[]');
+        
+        // Vérifier si ce chat existe déjà
+        const existingIndex = savedChats.findIndex(chat => chat.id === this.currentChatId);
+        if (existingIndex >= 0) {
+            savedChats[existingIndex] = conversation;
+        } else {
+            savedChats.push(conversation);
+        }
+        
+        // Garder seulement les 50 derniers chats
+        savedChats = savedChats.slice(-50);
+        
+        localStorage.setItem('elosya_ai_chats', JSON.stringify(savedChats));
+        
+        // Mettre à jour la liste des chats
+        this.updateChatList();
+    }
+    
+    generateConversationTitle() {
+        if (this.conversationHistory.length === 0) return 'Nouvelle conversation';
+        
+        // Prendre le premier message utilisateur comme titre
+        const firstUserMessage = this.conversationHistory.find(msg => msg.role === 'user');
+        if (firstUserMessage) {
+            const content = firstUserMessage.content;
+            return content.length > 30 ? content.substring(0, 30) + '...' : content;
+        }
+        
+        return 'Conversation sans titre';
+    }
+    
+    loadChatHistory() {
+        const savedChats = JSON.parse(localStorage.getItem('elosya_ai_chats') || '[]');
+        this.updateChatList(savedChats);
+    }
+    
+    updateChatList(chats = null) {
+        const chatList = document.getElementById('chat-list');
+        if (!chatList) return;
+        
+        if (!chats) {
+            chats = JSON.parse(localStorage.getItem('elosya_ai_chats') || '[]');
+        }
+        
+        // Trier par date (plus récent en premier)
+        chats.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+        
+        chatList.innerHTML = chats.map(chat => `
+            <div class="chat-item" data-chat-id="${chat.id}">
+                <i class="fas fa-comment chat-icon"></i>
+                <span>${chat.title}</span>
+                <small>${this.formatDate(chat.updatedAt)}</small>
+            </div>
+        `).join('');
+        
+        // Ajouter les événements
+        document.querySelectorAll('.chat-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                const chatId = e.currentTarget.dataset.chatId;
+                this.loadChat(chatId);
+            });
+        });
+    }
+    
+    async loadChat(chatId) {
+        const savedChats = JSON.parse(localStorage.getItem('elosya_ai_chats') || '[]');
+        const chat = savedChats.find(c => c.id === chatId);
+        
+        if (!chat) return;
+        
+        this.currentChatId = chat.id;
+        this.conversationHistory = chat.messages;
+        this.currentModel = chat.model;
+        
+        // Mettre à jour l'interface
+        this.updateModelDisplay();
+        
+        // Afficher les messages
+        const messagesContainer = document.getElementById('chat-messages');
+        if (messagesContainer) {
+            messagesContainer.innerHTML = '';
+            
+            chat.messages.forEach(message => {
+                const sender = message.role === 'user' ? 'user' : 'ai';
+                this.addMessageToUI(message.content, sender);
+            });
+        }
+        
+        // Mettre à jour la sélection dans la liste
+        document.querySelectorAll('.chat-item').forEach(item => {
+            item.classList.remove('active');
+            if (item.dataset.chatId === chatId) {
+                item.classList.add('active');
+            }
+        });
+    }
+    
+    // ===== FONCTIONS SPÉCIALES ELOSYA =====
+    async suggestVideoIdeas(topic) {
+        const prompt = `En tant qu'expert en création de contenu vidéo pour Elosya, propose 5 idées de vidéos sur le thème: "${topic}".
+        
+        Pour chaque idée, fournis:
+        1. Titre accrocheur
+        2. Description courte
+        3. Durée recommandée
+        4. Type de format (tutoriel, vlog, interview, etc.)
+        5. Hashtags pertinents
+        
+        Sois créatif et adapté au public français d'Elosya !`;
+        
+        return await this.getAIResponse(prompt);
+    }
+    
+    async analyzeVideoPerformance(title, description, metrics = {}) {
+        const prompt = `Analyse cette vidéo Elosya et donne des conseils d'amélioration:
+        
+        Titre: "${title}"
+        Description: "${description}"
+        
+        Métriques disponibles: ${JSON.stringify(metrics)}
+        
+        Donne:
+        1. Évaluation du titre/description
+        2. Suggestions d'amélioration
+        3. Hashtags recommandés
+        4. Stratégie de promotion
+        5. Idées pour la prochaine vidéo`;
+        
+        return await this.getAIResponse(prompt);
+    }
+    
+    async generateVideoDescription(videoTitle, keywords = []) {
+        const prompt = `Génère une description YouTube/Elosya professionnelle pour la vidéo: "${videoTitle}"
+        
+        Instructions:
+        - Longueur: 150-300 mots
+        - Inclure des appels à l'action (like, abonnement, commentaire)
+        - Ajouter des timestamps si c'est un tutoriel
+        - Utiliser des emojis modérément
+        - Inclure ces mots-clés: ${keywords.join(', ')}
+        - Format optimisé pour le SEO
+        
+        Génère aussi 5 hashtags pertinents.`;
+        
+        return await this.getAIResponse(prompt);
+    }
+    
+    async getAIResponse(prompt) {
+        const messages = [
+            { role: 'system', content: this.systemPrompt },
+            { role: 'user', content: prompt }
+        ];
+        
+        try {
+            const response = await this.callOpenAI(messages);
+            return response;
+        } catch (error) {
+            console.error('Erreur génération IA:', error);
+            return "Désolé, je n'ai pas pu générer de réponse. Veuillez réessayer.";
+        }
+    }
+    
+        // ===== FONCTIONS PRO (suite) =====
+    showProFeatures() {
+        const modalContent = `
+            <h3><i class="fas fa-crown"></i> Fonctions Professionnelles</h3>
+            <p>Accédez à des fonctionnalités avancées pour optimiser votre expérience Elosya:</p>
+            
+            <div class="pro-features-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
+                <div class="feature-card" style="background: rgba(124, 58, 237, 0.1); padding: 15px; border-radius: 10px; border: 1px solid rgba(124, 58, 237, 0.3);">
+                    <h4><i class="fas fa-chart-line"></i> Analyse avancée</h4>
+                    <p>Analyse détaillée des performances vidéo avec insights personnalisés</p>
+                </div>
+                
+                <div class="feature-card" style="background: rgba(37, 99, 235, 0.1); padding: 15px; border-radius: 10px; border: 1px solid rgba(37, 99, 235, 0.3);">
+                    <h4><i class="fas fa-bolt"></i> GPT-4 Turbo</h4>
+                    <p>Accès aux modèles les plus puissants et rapides</p>
+                </div>
+                
+                <div class="feature-card" style="background: rgba(16, 185, 129, 0.1); padding: 15px; border-radius: 10px; border: 1px solid rgba(16, 185, 129, 0.3);">
+                    <h4><i class="fas fa-robot"></i> Génération longue</h4>
+                    <p>Génération de scripts complets (jusqu'à 4000 tokens)</p>
+                </div>
+                
+                <div class="feature-card" style="background: rgba(245, 158, 11, 0.1); padding: 15px; border-radius: 10px; border: 1px solid rgba(245, 158, 11, 0.3);">
+                    <h4><i class="fas fa-image"></i> Génération d'images</h4>
+                    <p>Création de miniatures et visuels avec DALL-E</p>
+                </div>
+                
+                <div class="feature-card" style="background: rgba(239, 68, 68, 0.1); padding: 15px; border-radius: 10px; border: 1px solid rgba(239, 68, 68, 0.3);">
+                    <h4><i class="fas fa-video"></i> Scripts vidéo complets</h4>
+                    <p>Génération de scripts structurés avec scènes et dialogues</p>
+                </div>
+                
+                <div class="feature-card" style="background: rgba(168, 85, 247, 0.1); padding: 15px; border-radius: 10px; border: 1px solid rgba(168, 85, 247, 0.3);">
+                    <h4><i class="fas fa-chart-bar"></i> Analytics prédictives</h4>
+                    <p>Prédictions de performance et recommandations data-driven</p>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn btn-pro" style="width: 100%;" onclick="elosyaAI.upgradeAccount()">
+                    <i class="fas fa-rocket"></i> Passer à la version Pro (19.99€/mois)
+                </button>
+            </div>
+        `;
+        
+        this.showModal('Fonctions Pro', modalContent, 'pro-features');
+    }
+    
+    showUpgradeModal() {
+        const modalContent = `
+            <h3><i class="fas fa-rocket"></i> Passez à Lam.AI Pro</h3>
+            
+            <div class="pricing-table" style="margin: 20px 0;">
+                <div class="plan" style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 10px; margin-bottom: 15px;">
+                    <h4><i class="fas fa-star"></i> Plan Pro</h4>
+                    <p style="font-size: 2rem; margin: 10px 0;">19.99€<small style="font-size: 1rem; color: #94a3b8;">/mois</small></p>
+                    
+                    <ul style="text-align: left; margin: 20px 0; padding-left: 20px;">
+                        <li style="margin-bottom: 10px;">✅ Accès à GPT-4 et GPT-4 Turbo</li>
+                        <li style="margin-bottom: 10px;">✅ 1000 requêtes par jour</li>
+                        <li style="margin-bottom: 10px;">✅ Génération longue (4000 tokens)</li>
+                        <li style="margin-bottom: 10px;">✅ Analyse vidéo avancée</li>
+                        <li style="margin-bottom: 10px;">✅ Génération d'images DALL-E</li>
+                        <li style="margin-bottom: 10px;">✅ Support prioritaire</li>
+                        <li style="margin-bottom: 10px;">✅ Pas de file d'attente</li>
+                        <li style="margin-bottom: 10px;">✅ API personnalisée</li>
+                        <li style="margin-bottom: 10px;">✅ Analytics prédictives</li>
+                    </ul>
+                </div>
+                
+                <div class="plan" style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 10px; border: 2px solid rgba(124, 58, 237, 0.5);">
+                    <h4><i class="fas fa-crown"></i> Plan Entreprise</h4>
+                    <p style="font-size: 2rem; margin: 10px 0;">99€<small style="font-size: 1rem; color: #94a3b8;">/mois</small></p>
+                    
+                    <ul style="text-align: left; margin: 20px 0; padding-left: 20px;">
+                        <li style="margin-bottom: 10px;">✨ Toutes les fonctionnalités Pro</li>
+                        <li style="margin-bottom: 10px;">✨ 10,000 requêtes par jour</li>
+                        <li style="margin-bottom: 10px;">✨ Modèles personnalisés</li>
+                        <li style="margin-bottom: 10px;">✨ Intégration API complète</li>
+                        <li style="margin-bottom: 10px;">✨ Support 24/7</li>
+                        <li style="margin-bottom: 10px;">✨ Analytics avancées</li>
+                        <li style="margin-bottom: 10px;">✨ Formation d'équipe</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div style="text-align: center;">
+                <button class="btn btn-pro" style="width: 100%; margin-bottom: 10px;" onclick="elosyaAI.processPayment('pro')">
+                    <i class="fas fa-credit-card"></i> S'abonner au Plan Pro (19.99€/mois)
+                </button>
+                <button class="btn btn-pro" style="width: 100%; margin-bottom: 10px; background: linear-gradient(135deg, #7c3aed, #a855f7);" onclick="elosyaAI.processPayment('enterprise')">
+                    <i class="fas fa-building"></i> Choisir l'Entreprise (99€/mois)
+                </button>
+                <button class="btn btn-outline" style="width: 100%;" onclick="closeModal('upgrade')">
+                    Plus tard
+                </button>
+            </div>
+            
+            <div style="margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 8px;">
+                <p style="margin: 0; font-size: 0.9rem; color: #94a3b8;">
+                    <i class="fas fa-shield-alt"></i> Paiement 100% sécurisé. Annulation à tout moment. 
+                    Essai gratuit de 7 jours inclus.
+                </p>
+            </div>
+        `;
+        
+        this.showModal('Mise à niveau', modalContent, 'upgrade');
+    }
+    
+    // ===== FONCTIONS DE PAIEMENT (simulées) =====
+    async processPayment(plan = 'pro') {
+        this.showNotification('🔄 Traitement du paiement...', 'info');
+        
+        // Simuler un délai de paiement
+        await this.delay(2000);
+        
+        // Sauvegarder l'abonnement dans localStorage
+        const subscription = {
+            plan: plan,
+            status: 'active',
+            subscribedAt: new Date().toISOString(),
+            expiresAt: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString() // 30 jours
+        };
+        
+        localStorage.setItem('elosya_ai_subscription', JSON.stringify(subscription));
+        
+        // Mettre à jour les capacités
+        this.updateCapabilities(plan);
+        
+        this.showNotification(
+            plan === 'enterprise' 
+                ? '🚀 Plan Entreprise activé ! Accédez à toutes les fonctionnalités avancées' 
+                : '✅ Abonnement Pro activé ! Bienvenue en version Pro 🎉', 
+            'success'
+        );
+        
+        closeModal('upgrade');
+        
+        // Mettre à jour l'interface
+        this.updateUIForSubscription(plan);
+    }
+    
+    updateCapabilities(plan) {
+        if (plan === 'pro') {
+            // Activer GPT-4
+            this.availableModels['gpt-4'] = 'gpt-4';
+            this.availableModels['gpt-4-turbo'] = 'gpt-4-turbo-preview';
+            
+            // Augmenter les limites
+            this.maxTokens = 4000;
+            this.dailyLimit = 1000;
+            
+        } else if (plan === 'enterprise') {
+            // Tous les modèles
+            this.availableModels['gpt-4'] = 'gpt-4';
+            this.availableModels['gpt-4-turbo'] = 'gpt-4-turbo-preview';
+            this.availableModels['gpt-4-vision'] = 'gpt-4-vision-preview';
+            
+            // Limites élevées
+            this.maxTokens = 8000;
+            this.dailyLimit = 10000;
+            
+            // Activer les fonctionnalités spéciales
+            this.canGenerateImages = true;
+            this.canAnalyzeVideos = true;
+            this.hasPredictiveAnalytics = true;
+        }
+        
+        // Mettre à jour le sélecteur de modèle
+        this.updateModelSelect();
+    }
+    
+    updateModelSelect() {
+        const modelSelect = document.getElementById('model-select');
+        if (!modelSelect) return;
+        
+        // Sauvegarder la valeur actuelle
+        const currentValue = modelSelect.value;
+        
+        // Vider le sélecteur
+        modelSelect.innerHTML = '';
+        
+        // Ajouter les options disponibles
+        Object.keys(this.availableModels).forEach(modelKey => {
+            const option = document.createElement('option');
+            option.value = modelKey;
+            option.textContent = this.getModelDisplayName(modelKey);
+            modelSelect.appendChild(option);
+        });
+        
+        // Restaurer la sélection si possible
+        if (Object.keys(this.availableModels).includes(currentValue)) {
+            modelSelect.value = currentValue;
+        } else {
+            modelSelect.value = Object.keys(this.availableModels)[0];
+        }
+    }
+    
+    getModelDisplayName(modelKey) {
+        const names = {
+            'gpt-3.5': 'Lam.AI Standard (GPT-3.5)',
+            'gpt-4': 'Lam.AI Pro (GPT-4)',
+            'gpt-4-turbo': 'Lam.AI Turbo (GPT-4 Turbo)',
+            'gpt-4-vision': 'Lam.AI Vision (GPT-4 Vision)'
+        };
+        return names[modelKey] || modelKey;
+    }
+    
+    updateUIForSubscription(plan) {
+        // Mettre à jour tous les boutons Pro
+        document.querySelectorAll('.btn-pro, .model-pro').forEach(btn => {
+            if (btn.id !== 'sidebar-upgrade-btn') {
+                btn.innerHTML = `<i class="fas fa-crown"></i> ${plan === 'enterprise' ? 'Entreprise' : 'Pro'} activé`;
+                btn.disabled = true;
+                btn.style.opacity = '0.8';
+            }
+        });
+        
+        // Mettre à jour le sélecteur de modèle
+        const modelSelect = document.getElementById('model-select');
+        if (modelSelect) {
+            modelSelect.disabled = false;
+        }
+        
+        // Afficher les badges
+        this.showProBadge(plan);
+    }
+    
+    showProBadge(plan) {
+        const chatHeader = document.querySelector('.chat-header');
+        if (chatHeader && !document.getElementById('pro-badge')) {
+            const badge = document.createElement('div');
+            badge.id = 'pro-badge';
+            badge.style.cssText = `
+                display: inline-flex;
+                align-items: center;
+                gap: 5px;
+                background: ${plan === 'enterprise' ? 'linear-gradient(135deg, #7c3aed, #a855f7)' : 'linear-gradient(135deg, #3b82f6, #2563eb)'};
+                color: white;
+                padding: 4px 10px;
+                border-radius: 20px;
+                font-size: 0.8rem;
+                margin-left: 10px;
+                font-weight: 600;
+            `;
+            badge.innerHTML = `
+                <i class="fas fa-crown"></i>
+                ${plan === 'enterprise' ? 'Entreprise' : 'Pro'}
+            `;
+            
+            const chatTitle = chatHeader.querySelector('.chat-title');
+            if (chatTitle) {
+                chatTitle.appendChild(badge);
+            }
+        }
+    }
+    
+    upgradeAccount() {
+        closeModal('pro-features');
+        this.showUpgradeModal();
+    }
+    
+    // ===== GESTION DES ABONNEMENTS =====
+    checkSubscription() {
+        const subscriptionData = localStorage.getItem('elosya_ai_subscription');
+        if (!subscriptionData) return null;
+        
+        try {
+            const subscription = JSON.parse(subscriptionData);
+            
+            // Vérifier si l'abonnement a expiré
+            if (new Date(subscription.expiresAt) < new Date()) {
+                localStorage.removeItem('elosya_ai_subscription');
+                this.showNotification('Votre abonnement a expiré', 'warning');
+                return null;
+            }
+            
+            return subscription;
+        } catch (error) {
+            console.error('Erreur parsing subscription:', error);
+            return null;
+        }
+    }
+    
+    // ===== FONCTIONS SPÉCIALES PRO =====
+    async generateThumbnailIdea(videoTitle, style = 'modern') {
+        if (!this.canGenerateImages) {
+            throw new Error('Cette fonctionnalité nécessite un abonnement Pro');
+        }
+        
+        const prompt = `Génère une idée de miniature pour une vidéo intitulée "${videoTitle}".
+        
+        Style: ${style}
+        
+        Fournis:
+        1. Description visuelle détaillée
+        2. Palette de couleurs recommandée
+        3. Typographie suggérée
+        4. Éléments graphiques à inclure
+        5. Composition recommandée
+        
+        Sois créatif et accrocheur !`;
+        
+        return await this.getAIResponse(prompt);
+    }
+    
+    async predictVideoPerformance(videoData) {
+        if (!this.hasPredictiveAnalytics) {
+            throw new Error('Cette fonctionnalité nécessite un abonnement Entreprise');
+        }
+        
+        const prompt = `En tant qu'analyste vidéo expert, prédit les performances de cette vidéo:
+        
+        Titre: ${videoData.title}
+        Description: ${videoData.description}
+        Catégorie: ${videoData.category}
+        Durée: ${videoData.duration}
+        Créateur: ${videoData.creatorLevel || 'basique'}
+        
+        Fournis une prédiction détaillée:
+        1. Vues estimées (1ère semaine, 1er mois)
+        2. Taux d'engagement prédit
+        3. Revenus estimés
+        4. Recommandations d'optimisation
+        5. Meilleur moment de publication`;
+        
+        return await this.getAIResponse(prompt);
+    }
+    
+    async generateCompleteScript(videoTopic, duration = 10) {
+        if (!this.checkSubscription()) {
+            throw new Error('Cette fonctionnalité nécessite un abonnement Pro');
+        }
+        
+        const prompt = `Génère un script vidéo complet sur le thème: "${videoTopic}"
+        
+        Durée cible: ${duration} minutes
+        Format: Tutoriel éducatif
+        
+        Structure:
+        1. Introduction accrocheuse (30 secondes)
+        2. Présentation du problème/contexte
+        3. Solution étape par étape
+        4. Exemples concrets
+        5. Conclusion avec appel à l'action
+        
+        Inclus:
+        - Dialogues exacts
+        - Timing pour chaque section
+        - Notes de montage
+        - Éléments visuels à afficher
+        - Appels à l'action`;
+        
+        return await this.getAIResponse(prompt);
+    }
+    
+    // ===== UTILITAIRES =====
+    async testConnection() {
+        try {
+            const response = await fetch('https://api.openai.com/v1/models', {
+                headers: {
+                    'Authorization': `Bearer ${this.API_KEY}`
+                }
+            });
+            
+            return response.ok;
+        } catch {
+            return false;
+        }
+    }
+    
+    showNotification(message, type = 'info') {
+        // Créer une notification temporaire
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.style.cssText = `
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : type === 'warning' ? '#f59e0b' : '#3b82f6'};
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            z-index: 10000;
+            animation: fadeIn 0.3s ease;
+            max-width: 300px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        `;
+        
+        notification.innerHTML = `
+            <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'}"></i>
+            <span>${message}</span>
+        `;
+        
+        document.body.appendChild(notification);
+        
+        setTimeout(() => {
+            notification.style.animation = 'fadeOut 0.3s ease forwards';
+            setTimeout(() => notification.remove(), 300);
+        }, 3000);
+    }
+    
+    showModal(title, content, id = 'modal') {
+        const modal = document.createElement('div');
+        modal.id = `modal-${id}`;
+        modal.className = 'modal-overlay';
+        modal.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            animation: fadeIn 0.3s ease;
+        `;
+        
+        modal.innerHTML = `
+            <div class="modal-content" style="background: #1e293b; border-radius: 16px; width: 90%; max-width: 500px; border: 1px solid rgba(255,255,255,0.1); transform: translateY(20px); animation: modalSlideIn 0.3s ease forwards;">
+                <div class="modal-header" style="padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center;">
+                    <h3 style="margin: 0;">${title}</h3>
+                    <button class="close-modal" onclick="closeModal('${id}')" style="background: none; border: none; color: #94a3b8; font-size: 1.5rem; cursor: pointer; transition: color 0.2s;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body" style="padding: 20px; max-height: 60vh; overflow-y: auto;">
+                    ${content}
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+        document.body.style.overflow = 'hidden';
+    }
+    
+    autoResizeTextarea(textarea) {
+        textarea.style.height = 'auto';
+        textarea.style.height = (textarea.scrollHeight) + 'px';
+    }
+    
+    formatDate(dateString) {
+        const date = new Date(dateString);
+        const now = new Date();
+        const diffMs = now - date;
+        const diffMins = Math.floor(diffMs / 60000);
+        
+        if (diffMins < 1) return 'À l\'instant';
+        if (diffMins < 60) return `Il y a ${diffMins} min`;
+        if (diffMins < 1440) return `Il y a ${Math.floor(diffMins / 60)}h`;
+        
+        return date.toLocaleDateString('fr-FR', { 
+            day: 'numeric', 
+            month: 'short' 
+        });
+    }
+    
+    toggleHistory() {
+        const sidebar = document.querySelector('.sidebar');
+        if (sidebar) {
+            const isHidden = sidebar.style.display === 'none';
+            sidebar.style.display = isHidden ? 'flex' : 'none';
+            
+            // Animer la transition
+            if (isHidden) {
+                sidebar.style.animation = 'slideIn 0.3s ease';
+            }
+        }
+    }
+    
+   // Depuis la console du navigateur
+elosyaAI.suggestVideoIdeas("tutoriel montage vidéo");
+
+// Depuis une page vidéo
+<button onclick="openElosyaAI('video_analysis', { 
+    title: 'Mon Super Tutoriel', 
+    views: 1500, 
+    likes: 120 
+})">
+    Analyser avec l'IA
+</button>
+
+// Générer un script
+<button onclick="openElosyaAI('script_generation', {
+    topic: 'Les bases du SEO YouTube',
+    duration: 15,
+    videoType: 'tutorial'
+})">
+    Générer un script
+</button> 
