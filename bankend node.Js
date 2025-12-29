@@ -1,5 +1,3 @@
-// ===== FICHIER 7: backend-ai-proxy.js =====
-// Backend Node.js Express pour sécuriser l'API Elosya
 
 const express = require('express');
 const cors = require('cors');
@@ -15,7 +13,7 @@ const PORT = process.env.PORT || 3001;
 const ELOSYA_AI_CONFIG = {
     OPENAI_API_KEY: process.env.OPENAI_API_KEY || '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',
     RATE_LIMIT_WINDOW: 15 * 60 * 1000, // 15 minutes
-    RATE_LIMIT_MAX: 100, // 100 requêtes par fenêtre
+    RATE_LIMIT_MAX: 100, // 1000 requêtes par fenêtre
     MAX_TOKENS: 2000,
     SYSTEM_PROMPT: `Tu es Lam.AI, l'assistant IA intégré à Elosya, une plateforme vidéo française.
 Règles :
@@ -60,7 +58,7 @@ app.get('/api/health', (req, res) => {
 // 2. Chat IA principal
 app.post('/api/ai/chat', async (req, res) => {
     try {
-        const { messages, model = 'gpt-3.5-turbo', temperature = 0.7 } = req.body;
+        const { messages, model = 'gpt-4.5-turbo', temperature = 0.7 } = req.body;
         const userId = req.headers['x-user-id'] || req.ip;
 
         // Validation
