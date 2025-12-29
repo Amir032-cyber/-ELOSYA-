@@ -1959,6 +1959,77 @@
     function registerWithFacebook() {
       showError('Inscription Facebook sera disponible prochainement');
     }
+                      return;
+            }
+            
+            const formData = new FormData();
+            formData.append('video', selectedFile);
+            formData.append('title', document.getElementById('videoTitle').value);
+            formData.append('description', document.getElementById('videoDescription').value);
+            formData.append('hashtags', JSON.stringify(hashtags));
+            formData.append('visibility', document.getElementById('visibility').value);
+            formData.append('monetize', document.getElementById('monetize').checked);
+            
+            // Désactiver bouton
+            uploadBtn.disabled = true;
+            uploadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Publication...';
+            
+            // Afficher progression
+            progressBar.style.display = 'block';
+            
+            try {
+                // Simulation upload (remplacé par API réelle)
+                await simulateUpload(formData);
+                
+                // Succès
+                alert('✅ Vidéo publiée avec succès!');
+                window.location.href = 'feed.html';
+                
+            } catch (error) {
+                alert('❌ Erreur lors de la publication: ' + error.message);
+                uploadBtn.disabled = false;
+                uploadBtn.innerHTML = '<i class="fas fa-upload"></i> Publier la vidéo';
+            }
+        });
+        
+        // Simulation upload avec progression
+        function simulateUpload(formData) {
+            return new Promise((resolve) => {
+                let progress = 0;
+                const interval = setInterval(() => {
+                    progress += 10;
+                    progressFill.style.width = `${progress}%`;
+                    
+                    if (progress >= 100) {
+                        clearInterval(interval);
+                        // Simuler traitement serveur
+                        setTimeout(() => {
+                            console.log('Vidéo uploadée:', {
+                                title: formData.get('title'),
+                                description: formData.get('description'),
+                                hashtags: JSON.parse(formData.get('hashtags'))
+                            });
+                            resolve();
+                        }, 500);
+                    }
+                }, 200);
+            });
+        }
+        
+        // API réelle (à implémenter)
+        async function uploadToServer(formData) {
+            const response = await fetch('/api/upload/video', {
+                method: 'POST',
+                body: formData
+                // headers automatiques pour FormData
+            });
+            
+            if (!response.ok) {
+                throw new Error('Erreur serveur');
+            }
+            
+            return response.json();
+      }
     </script>
 </body>
 </html>
