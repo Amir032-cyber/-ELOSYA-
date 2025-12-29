@@ -1853,6 +1853,112 @@
     document.getElementById('moneyFusionModal').addEventListener('click', function(e) {
       if (e.target === this) closeModal();
     });
+            } else if (strength === 'strong') {
+        strengthBarFill.classList.add('strength-strong');
+        passwordStrengthText.textContent = 'Fort';
+        passwordStrengthText.style.color = 'var(--success)';
+      }
+    });
+
+    registerForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirm-password').value;
+      const referralCode = document.getElementById('referral-code').value;
+      const terms = document.getElementById('terms').checked;
+      
+      // Validation
+      if (name.length < 2) {
+        showError('Le nom doit contenir au moins 2 caractères');
+        return;
+      }
+      
+      if (!validateEmail(email)) {
+        showError('Veuillez entrer une adresse email valide');
+        return;
+      }
+      
+      if (password.length < 8) {
+        showError('Le mot de passe doit contenir au moins 8 caractères');
+        return;
+      }
+      
+      if (password !== confirmPassword) {
+        showError('Les mots de passe ne correspondent pas');
+        return;
+      }
+      
+      if (!terms) {
+        showError('Vous devez accepter les conditions d\'utilisation');
+        return;
+      }
+      
+      // Demo registration (in real app, this would call an API)
+      const userData = {
+        name: name,
+        email: email,
+        referralCode: referralCode,
+        registrationTime: new Date().toISOString(),
+        isPremium: false
+      };
+      
+      saveUserSession(userData);
+      showSuccess('Inscription réussie ! Redirection...');
+      
+      setTimeout(() => {
+        window.location.href = 'index.html';
+      }, 1500);
+    });
+
+    function checkPasswordStrength(password) {
+      if (password.length < 8) return 'weak';
+      
+      let strength = 0;
+      if (password.length >= 12) strength++;
+      if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
+      if (/\d/.test(password)) strength++;
+      if (/[^a-zA-Z\d]/.test(password)) strength++;
+      
+      if (strength <= 1) return 'weak';
+      if (strength <= 2) return 'medium';
+      return 'strong';
+    }
+
+    function showError(message) {
+      errorMessage.textContent = message;
+      errorMessage.style.display = 'block';
+      successMessage.style.display = 'none';
+      
+      setTimeout(() => {
+        errorMessage.style.display = 'none';
+      }, 5000);
+    }
+
+    function showSuccess(message) {
+      successMessage.textContent = message;
+      successMessage.style.display = 'block';
+      errorMessage.style.display = 'none';
+    }
+
+    function validateEmail(email) {
+      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return re.test(email);
+    }
+
+    function saveUserSession(userData) {
+      localStorage.setItem('elosya_user', JSON.stringify(userData));
+    }
+
+    function registerWithGoogle() {
+      showError('Inscription Google sera disponible prochainement');
+    }
+
+    function registerWithFacebook() {
+      showError('Inscription Facebook sera disponible prochainement');
+    }
     </script>
 </body>
 </html>
