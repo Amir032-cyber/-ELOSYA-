@@ -1669,7 +1669,128 @@
         
         // Initialisation
         document.addEventListener('DOMContentLoaded', loadVideos);
-  
+              <li><a href="premium.html" class="active"><i class="fas fa-crown"></i> Premium Elite</a></li>
+            <li><a href="wallet.html"><i class="fas fa-wallet"></i> Portefeuille</a></li>
+          </ul>
+        </nav>
+        <div class="header-actions">
+          <a href="login.html" class="btn btn-outline">Connexion</a>
+          <a href="register.html" class="btn btn-primary">S'inscrire</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Premium Hero -->
+  <section class="premium-hero">
+    <div class="container">
+      <i class="fas fa-crown crown-icon"></i>
+      <h1 class="section-title">Passez à <span class="gradient-text">Premium Elite</span></h1>
+      <p class="section-subtitle" style="color: rgba(255,255,255,0.8);">
+        Tout ce que vous obtenez pour <strong>99,99€/an</strong> - Sans publicités, avec badge exclusif et monétisation augmentée
+      </p>
+      
+      <!-- Badge Display -->
+      <div class="badge-display">
+        <div class="badge-item badge-blue">
+          <div class="badge-icon">🔵</div>
+          <h3>Badge Bleu</h3>
+          <p>Vérification KYC + 10K followers</p>
+          <small>Gratuit - Conditions requises</small>
+        </div>
+        
+        <div class="badge-item badge-black">
+          <div class="badge-icon">⚫</div>
+          <h3>Badge Noir Premium</h3>
+          <p>Exclusif aux abonnés Premium</p>
+          <small>99,99€/an - Tout inclus</small>
+        </div>
+        
+        <div class="badge-item badge-gold">
+          <div class="badge-icon">🟡</div>
+          <h3>Badge Or Entreprise</h3>
+          <p>Marques & Entreprises vérifiées</p>
+          <small>Documents requis</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Premium Benefits -->
+  <section class="features" style="padding: 80px 0; background: #f8f9fa;">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Avantages Premium Elite</h2>
+        <p class="section-subtitle">Tous les avantages exclusifs de votre abonnement à 99,99€/an</p>
+      </div>
+      
+      <div class="features-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 50px;">
+        <div class="feature-card" style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+          <div class="feature-icon" style="font-size: 40px; color: var(--primary); margin-bottom: 20px;">
+            <i class="fas fa-ad"></i>
+          </div>
+          <h3 style="margin-bottom: 15px;">ZÉRO PUBLICITÉS</h3>
+          <p>Expérience 100% sans publicités sur toute la plateforme. Navigation fluide et sans interruptions.</p>
+        </div>
+                
+      </div>
+      
+      <div style="text-align: center; padding-top: 30px; border-top: 1px solid #333; color: #999; font-size: 0.9rem;">
+        <p>&copy; 2024 Elosya Premium Elite. Tous droits réservés. Badge Noir ⚫ - Sans publicités.</p>
+        <p style="margin-top: 10px;">Conçu pour concurrencer Meta, TikTok et Instagram avec une approche bien-être.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Money Fusion QR Modal -->
+  <div id="moneyFusionModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10000; justify-content: center; align-items: center;">
+    <div style="background: white; padding: 40px; border-radius: 20px; text-align: center; max-width: 500px;">
+      <h3 style="margin-bottom: 20px;"><i class="fas fa-qrcode"></i> QR Code Money Fusion</h3>
+      <div id="qrCodePlaceholder" style="width: 200px; height: 200px; background: #f0f0f0; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center;">
+        <div style="text-align: center;">
+          <div style="font-size: 3rem;">📱</div>
+          <small>QR Code à générer</small>
+        </div>
+      </div>
+      <p style="margin-bottom: 20px;">Scannez ce QR Code avec Money Fusion ou utilisez le numéro :</p>
+      <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; font-family: monospace; font-size: 1.2rem;">
+        +226 02 68 89 02
+      </div>
+      <button onclick="closeModal()" style="margin-top: 30px; padding: 10px 30px; background: #0072ff; color: white; border: none; border-radius: 5px; cursor: pointer;">
+        Fermer
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Money Fusion Modal
+    function showMoneyFusionQR() {
+      document.getElementById('moneyFusionModal').style.display = 'flex';
+    }
+    
+    function closeModal() {
+      document.getElementById('moneyFusionModal').style.display = 'none';
+    }
+    
+    // Contact Support
+    function contactSupport() {
+      window.location.href = 'mailto:premium@elosya.com?subject=Support%20après%20paiement%20Premium';
+    }
+    
+    // FAQ Toggle
+    document.querySelectorAll('.faq-question').forEach(item => {
+      item.addEventListener('click', () => {
+        const answer = item.nextElementSibling;
+        answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+        const icon = item.querySelector('i');
+        icon.className = answer.style.display === 'block' ? 'fas fa-chevron-up' : 'fas fa-chevron-down';
+      });
+    });
+    
+    // Close modal on click outside
+    document.getElementById('moneyFusionModal').addEventListener('click', function(e) {
+      if (e.target === this) closeModal();
+    });
     </script>
 </body>
 </html>
