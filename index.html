@@ -1123,6 +1123,553 @@
     const data = await response.json();
     return data.message;
       }
+      <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Feed Vidéo - Elosya</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* STYLES SPÉCIFIQUES FEED TIKTOK */
+        .video-feed {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+            background: #000;
+        }
+        
+        .video-container {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+        }
+        
+        .video-player {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Overlay vidéo */
+        .video-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: white;
+        }
+        
+        .video-info {
+            margin-bottom: 20px;
+        }
+        
+        .video-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .video-stats {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        /* Actions droite */
+        .video-actions {
+            position: absolute;
+            right: 20px;
+            bottom: 120px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            align-items: center;
+        }
+        
+        .action-btn {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            border-radius: 50%;
+            width: 55px;
+            height: 55px;
+            color: white;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+        
+        .action-btn:hover {
+            background: rgba(255,255,255,0.2);
+            transform: scale(1.1);
+        }
+        
+        .action-count {
+            font-size: 0.8rem;
+            margin-top: 5px;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .like-btn.liked {
+            color: #ff4757;
+        }
+        
+        /* Navigation bas */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.9);
+            padding: 15px;
+            display: flex;
+            justify-content: space-around;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+        }
+        
+        .nav-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 10px;
+            position: relative;
+        }
+        
+        .nav-btn.active {
+            color: var(--primary);
+        }
+        
+        .upload-fab {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            box-shadow: 0 4px 20px rgba(108, 99, 255, 0.5);
+            z-index: 1001;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .upload-fab:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 30px rgba(108, 99, 255, 0.7);
+        }
+        
+        /* Barre recherche */
+        .search-bar {
+            position: fixed;
+            top: 10px;
+            left: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 25px;
+            padding: 12px 20px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.2);
+            z-index: 1000;
+        }
+        
+        .search-input {
+            background: none;
+            border: none;
+            color: white;
+            width: 100%;
+            font-size: 1rem;
+        }
+        
+        .search-input::placeholder {
+            color: rgba(255,255,255,0.6);
+        }
+        
+        /* Swipe indication */
+        .swipe-indicator {
+            position: absolute;
+            bottom: 50%;
+            right: 20px;
+            color: white;
+            font-size: 14px;
+            opacity: 0.7;
+            animation: float 2s infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Barre de recherche -->
+    <div class="search-bar">
+        <input type="text" class="search-input" placeholder="🔍 Rechercher des vidéos, créateurs...">
+    </div>
+    
+    <!-- Feed vidéo -->
+    <div class="video-feed" id="videoFeed">
+        <!-- Vidéos chargées dynamiquement -->
+    </div>
+    
+    <!-- Bouton upload -->
+    <div class="upload-fab" onclick="window.location.href='upload.html'">
+        <i class="fas fa-plus"></i>
+    </div>
+    
+    <!-- Navigation bas -->
+    <div class="bottom-nav">
+        <button class="nav-btn active" onclick="window.location.href='feed.html'">
+            <i class="fas fa-home"></i>
+        </button>
+        <button class="nav-btn" onclick="window.location.href='discover.html'">
+            <i class="fas fa-search"></i>
+        </button>
+        <button class="nav-btn" onclick="window.location.href='upload.html'">
+            <i class="fas fa-plus-square"></i>
+        </button>
+        <button class="nav-btn" onclick="window.location.href='messages.html'">
+            <i class="fas fa-comments"></i>
+        </button>
+        <button class="nav-btn" onclick="window.location.href='profile.html'">
+            <i class="fas fa-user"></i>
+        </button>
+    </div>
+    
+    <!-- Template vidéo -->
+    <template id="videoTemplate">
+        <div class="video-container" data-video-id="">
+            <video class="video-player" playsinline webkit-playsinline>
+                <source src="" type="video/mp4">
+                Votre navigateur ne supporte pas la vidéo.
+            </video>
+            
+            <div class="video-overlay">
+                <div class="video-info">
+                    <div class="user-info">
+                        <img src="" alt="Profil" class="user-avatar">
+                        <div>
+                            <h4 class="username">@utilisateur</h4>
+                            <p class="video-description">Description de la vidéo...</p>
+                        </div>
+                    </div>
+                    <div class="video-stats">
+                        <span>📅 <span class="time-ago">2h</span></span>
+                        <span>📍 <span class="location">Paris</span></span>
+                        <span>🏷️ <span class="hashtags">#bienêtre #mental</span></span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Actions droite -->
+            <div class="video-actions">
+                <div class="action-group">
+                    <button class="action-btn like-btn" onclick="toggleLike(this)">
+                        <i class="fas fa-heart"></i>
+                    </button>
+                    <div class="action-count likes-count">1.5K</div>
+                </div>
+                
+                <div class="action-group">
+                    <button class="action-btn comment-btn" onclick="openComments(this)">
+                        <i class="fas fa-comment"></i>
+                    </button>
+                    <div class="action-count comments-count">89</div>
+                </div>
+                
+                <div class="action-group">
+                    <button class="action-btn share-btn" onclick="shareVideo(this)">
+                        <i class="fas fa-share"></i>
+                    </button>
+                    <div class="action-count shares-count">45</div>
+                </div>
+                
+                <div class="action-group">
+                    <button class="action-btn coins-btn" onclick="sendCoins(this)">
+                        <i class="fas fa-coins"></i>
+                    </button>
+                    <div class="action-count coins-count">12</div>
+                </div>
+                
+                <div class="action-group">
+                    <button class="action-btn menu-btn" onclick="showVideoMenu(this)">
+                        <i class="fas fa-ellipsis-v"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </template>
+    
+    <!-- Indication swipe -->
+    <div class="swipe-indicator">
+        <i class="fas fa-chevron-up"></i>
+        <div>Swipe pour suivant</div>
+    </div>
+    
+    <script src="js/feed.js"></script>
+    <script>
+        // Données temporaires (remplacé par API plus tard)
+        const videos = [
+            {
+                id: 1,
+                url: "https://assets.mixkit.co/videos/preview/mixkit-young-woman-practicing-yoga-4451-large.mp4",
+                user: {
+                    username: "@yoga_master",
+                    avatar: "https://randomuser.me/api/portraits/women/32.jpg"
+                },
+                description: "Séance de yoga matinale pour commencer la journée avec énergie positive! 🧘‍♀️✨ #yoga #bienêtre #mentalhealth",
+                likes: 1520,
+                comments: 89,
+                shares: 45,
+                coins: 12,
+                location: "Paris, France",
+                hashtags: ["#yoga", "#bienêtre", "#santémentale"],
+                timestamp: "2h"
+            },
+            {
+                id: 2,
+                url: "https://assets.mixkit.co/videos/preview/mixkit-happy-young-people-dancing-at-a-party-2382-large.mp4",
+                user: {
+                    username: "@dance_therapy",
+                    avatar: "https://randomuser.me/api/portraits/men/22.jpg"
+                },
+                description: "La danse comme thérapie! Libérez vos émotions et trouvez votre rythme intérieur 💃🕺 #danse #thérapie #joie",
+                likes: 2450,
+                comments: 156,
+                shares: 89,
+                coins: 28,
+                location: "Lyon, France",
+                hashtags: ["#danse", "#thérapie", "#positivité"],
+                timestamp: "4h"
+            }
+        ];
+        
+        // Charger les vidéos
+        function loadVideos() {
+            const feed = document.getElementById('videoFeed');
+            const template = document.getElementById('videoTemplate');
+            
+            videos.forEach(video => {
+                const clone = template.content.cloneNode(true);
+                const container = clone.querySelector('.video-container');
+                container.dataset.videoId = video.id;
+                
+                // Remplir les données
+                container.querySelector('source').src = video.url;
+                container.querySelector('.video-player').load();
+                container.querySelector('.username').textContent = video.user.username;
+                container.querySelector('.user-avatar').src = video.user.avatar;
+                container.querySelector('.video-description').textContent = video.description;
+                container.querySelector('.likes-count').textContent = formatNumber(video.likes);
+                container.querySelector('.comments-count').textContent = formatNumber(video.comments);
+                container.querySelector('.shares-count').textContent = formatNumber(video.shares);
+                container.querySelector('.coins-count').textContent = formatNumber(video.coins);
+                container.querySelector('.time-ago').textContent = video.timestamp;
+                container.querySelector('.location').textContent = video.location;
+                container.querySelector('.hashtags').textContent = video.hashtags.join(' ');
+                
+                feed.appendChild(clone);
+            });
+            
+            // Gestion swipe
+            initSwipe();
+            // Auto-play première vidéo
+            autoPlayFirstVideo();
+        }
+        
+        function formatNumber(num) {
+            if (num >= 1000) {
+                return (num / 1000).toFixed(1) + 'K';
+            }
+            return num.toString();
+        }
+        
+        function toggleLike(button) {
+            button.classList.toggle('liked');
+            const countElement = button.closest('.action-group').querySelector('.action-count');
+            let count = parseInt(countElement.textContent.replace('K', '')) * 1000 || 
+                       parseInt(countElement.textContent);
+            
+            if (button.classList.contains('liked')) {
+                count++;
+                // Simuler gain de 0.05€ par 20 likes
+                if (count % 20 === 0) {
+                    addEarnings(0.05, "like");
+                }
+            } else {
+                count--;
+            }
+            
+            countElement.textContent = formatNumber(count);
+            
+            // API call ici
+            const videoId = button.closest('.video-container').dataset.videoId;
+            fetch(`/api/like/${videoId}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            });
+        }
+        
+        function shareVideo(button) {
+            const videoContainer = button.closest('.video-container');
+            const videoId = videoContainer.dataset.videoId;
+            const videoUrl = `${window.location.origin}/video/${videoId}`;
+            
+            // Options de partage
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Regarde cette vidéo sur Elosya!',
+                    text: 'Découvre cette vidéo inspirante sur la plateforme de bien-être mental',
+                    url: videoUrl
+                }).then(() => {
+                    // Augmenter compteur shares
+                    const countElement = button.closest('.action-group').querySelector('.action-count');
+                    let count = parseInt(countElement.textContent.replace('K', '')) * 1000 || 
+                               parseInt(countElement.textContent);
+                    count++;
+                    countElement.textContent = formatNumber(count);
+                    
+                    // Simuler gain de 0.10€ par 10 shares
+                    if (count % 10 === 0) {
+                        addEarnings(0.10, "share");
+                    }
+                });
+            } else {
+                // Fallback copy link
+                navigator.clipboard.writeText(videoUrl).then(() => {
+                    alert('Lien copié! Partage-le sur tes réseaux!');
+                });
+            }
+            
+            // API call
+            fetch(`/api/share/${videoId}`, {
+                method: 'POST'
+            });
+        }
+        
+        function sendCoins(button) {
+            const videoId = button.closest('.video-container').dataset.videoId;
+            const amount = prompt("Combien de pièces Elosya voulez-vous envoyer? (1 pièce = 0.10€)");
+            
+            if (amount && !isNaN(amount) && amount > 0) {
+                // API call pour envoyer des pièces
+                fetch('/api/send-coins', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        videoId: videoId,
+                        amount: parseInt(amount)
+                    })
+                }).then(response => {
+                    if (response.ok) {
+                        alert(`✅ ${amount} pièces envoyées au créateur!`);
+                        // Mettre à jour compteur
+                        const countElement = button.closest('.action-group').querySelector('.action-count');
+                        let count = parseInt(countElement.textContent.replace('K', '')) * 1000 || 
+                                   parseInt(countElement.textContent);
+                        count += parseInt(amount);
+                        countElement.textContent = formatNumber(count);
+                    }
+                });
+            }
+        }
+        
+        function addEarnings(amount, type) {
+            // Ajouter aux gains de l'utilisateur
+            console.log(`+${amount}€ gagnés via ${type}`);
+            // Mettre à jour le portefeuille en temps réel
+            updateWallet(amount);
+        }
+        
+        function updateWallet(amount) {
+            // Met à jour l'affichage du portefeuille
+            const walletElement = document.querySelector('.wallet-amount');
+            if (walletElement) {
+                let current = parseFloat(walletElement.textContent.replace('€', ''));
+                walletElement.textContent = (current + amount).toFixed(2) + '€';
+            }
+        }
+        
+        function initSwipe() {
+            let startY;
+            const feed = document.getElementById('videoFeed');
+            
+            feed.addEventListener('touchstart', e => {
+                startY = e.touches[0].clientY;
+            });
+            
+            feed.addEventListener('touchend', e => {
+                const endY = e.changedTouches[0].clientY;
+                const diff = startY - endY;
+                
+                if (Math.abs(diff) > 50) {
+                    if (diff > 0) {
+                        // Swipe up - next video
+                        next} else {
+                        // Swipe down - previous video
+                        prevVideo();
+                    }
+                }
+            });
+            
+            // Navigation clavier
+            document.addEventListener('keydown', e => {
+                if (e.key === 'ArrowDown') nextVideo();
+                if (e.key === 'ArrowUp') prevVideo();
+            });
+        }
+        
+        let currentVideoIndex = 0;
+        
+        function nextVideo() {
+            const videos = document.querySelectorAll('.video-container');
+            if (currentVideoIndex < videos.length - 1) {
+                videos[currentVideoIndex].style.transform = 'translateY(-100vh)';
+                currentVideoIndex++;
+                videos[currentVideoIndex].style.transform = 'translateY(0)';
+                playVideo(videos[currentVideoIndex]);
+            }
+        }
+        
+        function prevVideo() {
+            const videos = document.querySelectorAll('.video-container');
+            if (currentVideoIndex > 0) {
+                videos[currentVideoIndex].style.transform = 'translateY(100vh)';
+                currentVideoIndex--;
+                videos[currentVideoIndex].style.transform = 'translateY(0)';
+                playVideo(videos[currentVideoIndex]);
+            }
+        }
+        
+        function playVideo(container) {
+            const video = container.querySelector('.video-player');
+            video.play().catch(e => console.log("Autoplay blocked:", e));
+        }
+        
+        function autoPlayFirstVideo() {
+            const firstVideo = document.querySelector('.video-container');
+            if (firstVideo) {
+                playVideo(firstVideo);
+            }
+        }
+        
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', loadVideos);
+  
     </script>
 </body>
 </html>
