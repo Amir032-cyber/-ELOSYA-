@@ -1,14 +1,41 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8"
-  
-    
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ELOSYA — Accueil</title>
+
+  <!-- Font Awesome (icônes) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="" crossorigin="anonymous" />
+
+  <style>
+    /* ===== RÉINITIALISATION BASIQUE ===== */
+    :root {
+      --bg-dark: #0a0e17;
+      --accent1: #7c3aed;
+      --accent2: #2563eb;
+      --gold: #f59e0b;
+      --glass: rgba(255,255,255,0.04);
+    }
+
+    html,body {
+      height: 100%;
+      margin: 0;
+      font-family: Inter, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(180deg, #05060a 0%, #0a0e17 60%);
+      color: #cbd5e1;
+    }
+
+    .container {
+      width: min(1200px, 92%);
+      margin: 0 auto;
+    }
+
     /* ===== EN-TÊTE PROFESSIONNEL ===== */
     .header {
       background: rgba(10, 14, 23, 0.98);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(124, 58, 237, 0.3);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(124, 58, 237, 0.12);
       position: fixed;
       top: 0;
       width: 100%;
@@ -16,109 +43,103 @@
       padding: 1rem 0;
       transition: all 0.3s ease;
     }
-    
-    .header.scrolled {
-      padding: 0.5rem 0;
-      background: rgba(10, 14, 23, 0.95);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    }
-    
+
     .header-content {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      position: relative;
+      gap: 1rem;
     }
-    
+
     .logo {
       display: flex;
       align-items: center;
-      gap: 15px;
+      gap: 12px;
       text-decoration: none;
     }
-    
+
     .logo-icon {
-      font-size: 2.5rem;
-      background: linear-gradient(45deg, #7c3aed, #2563eb);
+      font-size: 1.9rem;
+      background: linear-gradient(45deg, var(--accent1), var(--accent2));
       -webkit-background-clip: text;
-      background-clip: text;
       color: transparent;
     }
-    
+
     .logo h1 {
-      font-size: 2rem;
-      font-weight: 900;
-      background: linear-gradient(45deg, #ffffff, #c7d2fe);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin: 0;
+      color: #fff;
     }
-    
-    /* ===== NAVIGATION AVANCÉE ===== */
+
     .nav ul {
       display: flex;
-      gap: 2rem;
+      gap: 1.25rem;
       list-style: none;
+      margin: 0;
+      padding: 0;
     }
-    
+
     .nav a {
       color: #c7d2fe;
       text-decoration: none;
       font-weight: 600;
-      padding: 0.75rem 1.5rem;
-      border-radius: 50px;
-      transition: all 0.3s ease;
-      display: flex;
+      padding: 0.5rem 0.9rem;
+      border-radius: 999px;
+      transition: all 0.2s ease;
+      display: inline-flex;
       align-items: center;
-      gap: 10px;
-      position: relative;
-      overflow: hidden;
+      gap: 8px;
     }
-    
-    .nav a::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(124, 58, 237, 0.2), transparent);
-      transition: left 0.6s ease;
-    }
-    
-    .nav a:hover::before {
-      left: 100%;
-    }
-    
+
     .nav a:hover, .nav a.active {
-      background: linear-gradient(45deg, rgba(124, 58, 237, 0.2), rgba(37, 99, 235, 0.2));
-      color: #ffffff;
+      background: linear-gradient(45deg, rgba(124,58,237,0.12), rgba(37,99,235,0.12));
+      color: #fff;
       transform: translateY(-2px);
-      box-shadow: 0 10px 25px rgba(124, 58, 237, 0.2);
+      box-shadow: 0 6px 18px rgba(124,58,237,0.08);
     }
-    
+
+    .header-actions a {
+      margin-left: 0.5rem;
+      text-decoration: none;
+      padding: 0.5rem 0.85rem;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #fff;
+    }
+
+    .btn-primary {
+      background: linear-gradient(45deg, var(--accent1), var(--accent2));
+      color: white;
+      border: none;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.06);
+      color: #c7d2fe;
+    }
+
     /* ===== SECTION HÉROÏQUE ===== */
     .hero {
-      padding: 15rem 0 8rem;
-      background: linear-gradient(135deg, #0a0e17 0%, #1a1b4b 100%);
+      padding: 10rem 0 6rem;
+      background: linear-gradient(135deg, #0a0e17 0%, #101226 100%);
       position: relative;
       overflow: hidden;
+      color: #cbd5e1;
     }
-    
-    .hero::before {
-      content: '';
+
+    /* zone pour particles.js */
+    #particles-js {
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: 
-        radial-gradient(circle at 20% 80%, rgba(124, 58, 237, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(37, 99, 235, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(245, 158, 11, 0.05) 0%, transparent 50%);
-      animation: floatAnimation 20s ease-in-out infinite;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0.25;
     }
-    
+
     .hero-content {
       text-align: center;
       position: relative;
@@ -126,419 +147,204 @@
       max-width: 1000px;
       margin: 0 auto;
     }
-    
+
     .hero-title {
-      font-size: 4rem;
+      font-size: 3.2rem;
       font-weight: 900;
-      margin-bottom: 2rem;
-      background: linear-gradient(45deg, #ffffff, #7c3aed, #2563eb);
-      background-size: 300% 300%;
+      margin: 0 0 1rem 0;
+      background: linear-gradient(45deg, #fff, var(--accent1), var(--accent2));
       -webkit-background-clip: text;
-      background-clip: text;
       color: transparent;
-      animation: gradientFlow 4s ease infinite;
     }
-    
+
     .hero-description {
-      font-size: 1.5rem;
+      font-size: 1.05rem;
       color: #c7d2fe;
-      margin-bottom: 3rem;
+      margin: 0 auto 2rem auto;
       line-height: 1.6;
-      max-width: 800px;
-      margin-left: auto;
-      margin-right: auto;
+      max-width: 780px;
     }
-    
+
     .hero-buttons {
       display: flex;
-      gap: 1.5rem;
+      gap: 1rem;
       justify-content: center;
-      margin-bottom: 4rem;
+      margin-bottom: 2.5rem;
+      flex-wrap: wrap;
     }
-    
-    /* ===== BADGES ELOSYA ===== */
+
     .badge-showcase {
       display: flex;
       justify-content: center;
-      gap: 3rem;
-      margin: 4rem 0;
+      gap: 2rem;
+      margin: 2.25rem 0;
       flex-wrap: wrap;
     }
-    
+
     .badge-item {
       text-align: center;
-      transition: all 0.3s ease;
+      transition: all 0.25s ease;
+      width: 140px;
     }
-    
-    .badge-item:hover {
-      transform: translateY(-10px);
-    }
-    
+
     .badge-visual {
-      width: 120px;
-      height: 120px;
+      width: 96px;
+      height: 96px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 3rem;
-      margin: 0 auto 1rem;
-      position: relative;
+      font-size: 2rem;
+      margin: 0 auto 0.75rem auto;
+      background: linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
     }
-    
-    .badge-blue .badge-visual {
-      --badge-color: #2563eb;
-      background: linear-gradient(135deg, #2563eb, #3b82f6);
-      animation: badgeGlow 2s ease-in-out infinite;
-    }
-    
-    .badge-black .badge-visual {
-      --badge-color: #1f2937;
-      background: linear-gradient(135deg, #1f2937, #374151);
-      animation: badgeGlow 2s ease-in-out infinite 0.3s;
-    }
-    
-    .badge-gold .badge-visual {
-      --badge-color: #f59e0b;
-      background: linear-gradient(135deg, #fbbf24, #f59e0b);
-      animation: badgeGlow 2s ease-in-out infinite 0.6s;
-    }
-    
-    /* ===== STATISTIQUES ANIMÉES ===== */
+
+    .badge-blue .badge-visual { background: linear-gradient(135deg, #2563eb, #3b82f6); }
+    .badge-black .badge-visual { background: linear-gradient(135deg, #1f2937, #374151); }
+    .badge-gold .badge-visual { background: linear-gradient(135deg, #fbbf24, #f59e0b); }
+
     .hero-stats {
       display: flex;
       justify-content: center;
-      gap: 4rem;
-      margin-top: 4rem;
+      gap: 2rem;
+      margin-top: 2.5rem;
       flex-wrap: wrap;
+      z-index: 2;
     }
-    
+
     .stat {
       text-align: center;
-      padding: 2rem;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 20px;
-      border: 1px solid rgba(124, 58, 237, 0.2);
-      transition: all 0.3s ease;
-      min-width: 180px;
+      padding: 1.5rem;
+      background: rgba(255,255,255,0.02);
+      border-radius: 12px;
+      border: 1px solid rgba(124,58,237,0.08);
+      min-width: 140px;
     }
-    
-    .stat:hover {
-      transform: translateY(-10px);
-      background: rgba(124, 58, 237, 0.1);
-      border-color: #7c3aed;
-      box-shadow: 0 20px 40px rgba(124, 58, 237, 0.2);
-    }
-    
+
     .stat-number {
-      font-size: 3.5rem;
-      font-weight: 900;
-      background: linear-gradient(45deg, #7c3aed, #2563eb);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      margin-bottom: 0.5rem;
-      position: relative;
-    }
-    
-    .stat-number::after {
-      content: '+';
-      position: absolute;
       font-size: 2rem;
-      color: #7c3aed;
+      font-weight: 800;
+      margin-bottom: 0.25rem;
+      color: #fff;
     }
-    
-    /* ===== GRID DE FONCTIONNALITÉS AVANCÉES ===== */
+
+    .stat-label {
+      font-size: 0.95rem;
+      color: #c7d2fe;
+    }
+
+    /* ===== FEATURES GRID ===== */
+    .features {
+      padding: 3.5rem 0;
+    }
+
+    .section-title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 1.25rem;
+      color: #fff;
+    }
+
     .features-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-      gap: 2rem;
-      margin-top: 3rem;
+      grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+      gap: 1rem;
+      margin-top: 1rem;
     }
-    
+
     .feature-card {
-      background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.8));
-      border-radius: 25px;
-      padding: 2.5rem;
-      border: 1px solid rgba(124, 58, 237, 0.3);
-      transition: all 0.4s ease;
-      position: relative;
-      overflow: hidden;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius: 16px;
+      padding: 1.25rem;
+      border: 1px solid rgba(124,58,237,0.06);
+      transition: transform .25s ease, box-shadow .25s ease;
     }
-    
-    .feature-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(124, 58, 237, 0.1), transparent);
-      transition: left 0.6s ease;
-    }
-    
-    .feature-card:hover::before {
-      left: 100%;
-    }
-    
+
     .feature-card:hover {
-      transform: translateY(-15px) scale(1.02);
-      border-color: #7c3aed;
-      box-shadow: 0 30px 60px rgba(124, 58, 237, 0.2);
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
     }
-    
-    .feature-icon {
-      font-size: 3.5rem;
-      margin-bottom: 1.5rem;
-      background: linear-gradient(45deg, #7c3aed, #2563eb);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      display: inline-block;
+
+    .feature-icon { font-size: 1.5rem; margin-bottom: 0.5rem; color: var(--accent1); }
+
+    /* ===== PRICING & CTA ===== */
+    .pricing, .eligibility, .cta-final {
+      padding: 2.5rem 0;
+      color: #cbd5e1;
     }
-    
-    /* ===== MONÉTISATION VIDÉO ===== */
-    .monetization-section {
-      background: linear-gradient(135deg, rgba(10, 14, 23, 0.9), rgba(26, 27, 75, 0.9));
-      border-radius: 30px;
-      padding: 4rem;
-      margin: 6rem 0;
-      position: relative;
-      overflow: hidden;
-      border: 2px solid transparent;
-      background-clip: padding-box;
-    }
-    
-    .monetization-section::before {
-      content: '';
-      position: absolute;
-      top: -2px;
-      right: -2px;
-      bottom: -2px;
-      left: -2px;
-      z-index: -1;
-      border-radius: inherit;
-      background: linear-gradient(45deg, #7c3aed, #2563eb, #f59e0b);
-      opacity: 0.5;
-    }
-    
-    .earnings-grid {
+
+    .pricing-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 2rem;
-      margin-top: 3rem;
+      grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+      gap: 1rem;
+      margin-top: 1rem;
     }
-    
-    .earning-card {
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 20px;
-      padding: 2rem;
-      text-align: center;
-      transition: all 0.3s ease;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+
+    .pricing-card {
+      background: rgba(255,255,255,0.02);
+      border-radius: 12px;
+      padding: 1rem;
+      border: 1px solid rgba(255,255,255,0.03);
     }
-    
-    .earning-card:hover {
-      background: rgba(124, 58, 237, 0.1);
-      transform: translateY(-10px);
-      border-color: #7c3aed;
-    }
-    
-    .earning-amount {
-      font-size: 2.5rem;
-      font-weight: 900;
-      background: linear-gradient(45deg, #f59e0b, #d97706);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      margin: 1rem 0;
-    }
-    
-    /* ===== PLANS PREMIUM ÉLITE ===== */
-    .plans-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
-      margin-top: 3rem;
-    }
-    
-    .plan-card {
-      background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9));
-      border-radius: 25px;
-      padding: 3rem 2rem;
-      border: 1px solid rgba(124, 58, 237, 0.3);
-      transition: all 0.4s ease;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .plan-card.featured {
-      border: 2px solid #f59e0b;
-      transform: scale(1.05);
-      box-shadow: 0 40px 80px rgba(245, 158, 11, 0.2);
-    }
-    
-    .plan-card.featured::before {
-      content: '⭐ POPULAIRE';
-      position: absolute;
-      top: 20px;
-      right: -40px;
-      background: linear-gradient(45deg, #f59e0b, #d97706);
-      color: #1f2937;
-      padding: 0.5rem 3rem;
-      font-weight: 900;
-      font-size: 0.9rem;
-      transform: rotate(45deg);
-    }
-    
-    .plan-price {
-      font-size: 3.5rem;
-      font-weight: 900;
-      margin: 2rem 0;
-      background: linear-gradient(45deg, #ffffff, #c7d2fe);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-    
-    .plan-price span {
-      font-size: 1rem;
-      color: #94a3b8;
-    }
-    
-    /* ===== SECTION APPEL À L'ACTION ===== */
-    .cta {
-      background: linear-gradient(135deg, #7c3aed, #2563eb);
-      border-radius: 30px;
-      padding: 6rem 2rem;
-      margin: 6rem 0;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .cta::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100"><path fill="rgba(255,255,255,0.1)" d="M0,50 Q250,0 500,50 T1000,50 V100 H0 Z"/></svg>') bottom center/100% auto no-repeat;
-    }
-    
-    /* ===== PIED DE PAGE PROFESSIONNEL ===== */
+
+    .pricing-header h3 { margin: 0 0 0.5rem 0; font-size: 1.1rem; }
+    .price { font-size: 1.6rem; font-weight: 900; color: #fff; }
+
+    /* ===== FOOTER ===== */
     .footer {
-      background: linear-gradient(135deg, #0a0e17 0%, #1a1b4b 100%);
-      padding: 6rem 0 2rem;
-      position: relative;
-      overflow: hidden;
+      padding: 3rem 0 2rem;
+      background: linear-gradient(180deg,#07080c 0%, #0a0e17 100%);
+      margin-top: 2rem;
+      color: #9aa7bf;
     }
-    
-    .footer::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, #7c3aed, #2563eb, #f59e0b, transparent);
-    }
-    
+
     .footer-content {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 4rem;
-      margin-bottom: 4rem;
+      grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+      gap: 1.2rem;
     }
-    
-    .footer-column h3 {
-      font-size: 1.5rem;
-      margin-bottom: 2rem;
-      background: linear-gradient(45deg, #ffffff, #c7d2fe);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-    
-    .social-links {
-      display: flex;
-      gap: 1rem;
-      margin-top: 2rem;
-    }
-    
-    .social-links a {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #c7d2fe;
-      font-size: 1.2rem;
-      transition: all 0.3s ease;
-    }
-    
-    .social-links a:hover {
-      background: linear-gradient(45deg, #7c3aed, #2563eb);
-      color: white;
-      transform: translateY(-5px);
-    }
-    
-    /* ===== RESPONSIVE DESIGN ===== */
-    @media (max-width: 1200px) {
-      .hero-title { font-size: 3rem; }
-      .features-grid { grid-template-columns: repeat(2, 1fr); }
-    }
-    
-    @media (max-width: 768px) {
-      .nav { display: none; }
-      .hero-title { font-size: 2.5rem; }
-      .hero-description { font-size: 1.2rem; }
-      .hero-buttons { flex-direction: column; }
-      .features-grid { grid-template-columns: 1fr; }
-      .badge-showcase { gap: 2rem; }
-      .hero-stats { gap: 1rem; }
-      .stat { min-width: 140px; padding: 1.5rem; }
-      .plan-card.featured { transform: none; }
-    }
-    
-    @media (max-width: 480px) {
+
+    .footer-bottom { margin-top: 1.25rem; color: #7f8fa4; font-size: 0.9rem; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) {
       .hero-title { font-size: 2rem; }
-      .logo h1 { font-size: 1.5rem; }
-      .badge-visual { width: 80px; height: 80px; font-size: 2rem; }
-      .feature-card { padding: 2rem; }
-      .monetization-section { padding: 2rem; }
+      .hero { padding-top: 8rem; }
+    }
+
+    @media (max-width: 520px) {
+      .nav { display: none; }
+      .header-actions { display: none; }
+      .badge-item { width: 120px; }
+      .hero { padding-top: 7.5rem; }
     }
   </style>
 </head>
+
 <body>
-  <!-- Splash Screen Divine -->
-  <div id="splash-screen" class="splash-screen">
-    <div class="splash-content">
-      <div class="splash-logo">
-        <i class="fas fa-brain"></i>
-      </div>
-      <h1 class="splash-title">ELOSYA</h1>
-      <p class="splash-tagline">Plateforme Sociale Nouvelle Génération</p>
-      <div class="splash-loader"></div>
+  <!-- Splash Screen -->
+  <div id="splash-screen" style="position:fixed;inset:0;background:linear-gradient(180deg,#05060a,#071028);display:flex;align-items:center;justify-content:center;z-index:2000;">
+    <div style="text-align:center;color:#fff;">
+      <div style="font-size:2.25rem; margin-bottom:0.5rem;"><i class="fas fa-brain"></i></div>
+      <h1 style="margin:0;font-size:1.75rem;">ELOSYA</h1>
+      <p style="opacity:0.9;margin-top:0.25rem;">Plateforme sociale nouvelle génération</p>
     </div>
   </div>
 
   <!-- Application Principale -->
-  <div id="main-app" class="main-app" style="display: none;">
+  <div id="main-app" class="main-app" style="display:block;">
     <!-- En-tête Fixe -->
-    <header class="header">
+    <header class="header" role="banner">
       <div class="container">
         <div class="header-content">
-          <a href="index.html" class="logo">
-            <i class="fas fa-brain logo-icon"></i>
+          <a href="index.html" class="logo" aria-label="Elosya — Accueil">
+            <i class="fas fa-brain logo-icon" aria-hidden="true"></i>
             <h1>ELOSYA</h1>
           </a>
-          
+
           <!-- Navigation Principale -->
-          <nav class="nav">
+          <nav class="nav" aria-label="Navigation principale">
             <ul>
               <li><a href="index.html" class="active"><i class="fas fa-home"></i> Accueil</a></li>
               <li><a href="lam-ai.html"><i class="fas fa-robot"></i> LAM.AI</a></li>
@@ -550,70 +356,65 @@
           </nav>
 
           <!-- Actions Utilisateur -->
-          <div class="header-actions">
-            <a href="login.html" class="btn btn-outline"><i class="fas fa-sign-in-alt"></i> Connexion</a>
-            <a href="register.html" class="btn btn-primary"><i class="fas fa-user-plus"></i> Inscription</a>
-          </div>
-
-          <!-- Menu Mobile -->
-          <div class="mobile-menu" id="mobileMenu">
-            <i class="fas fa-bars"></i>
+          <div class="header-actions" aria-hidden="false">
+            <a href="login.html" class="btn-outline" title="Connexion"><i class="fas fa-sign-in-alt"></i> Connexion</a>
+            <a href="register.html" class="btn-primary" title="Inscription"><i class="fas fa-user-plus"></i> Inscription</a>
           </div>
         </div>
       </div>
     </header>
 
     <!-- Section Héroïque -->
-    <section class="hero">
+    <section class="hero" aria-label="Section héroïque">
+      <div id="particles-js" aria-hidden="true"></div>
+
       <div class="container">
         <div class="hero-content">
           <h2 class="hero-title">Bienvenue sur <span class="gradient-text">ELOSYA</span></h2>
           <p class="hero-description">
-            La première plateforme sociale qui combine <strong>IA avancée</strong>, <strong>monétisation vidéo</strong>, 
-            <strong>communauté bien-être</strong> et <strong>portefeuille multi-devises</strong>. 
+            La première plateforme sociale qui combine <strong>IA avancée</strong>, <strong>monétisation vidéo</strong>,
+            <strong>communauté bien-être</strong> et <strong>portefeuille multi-devises</strong>.
             Concurrencez TikTok et Instagram avec une expérience unique.
           </p>
-          
+
           <div class="hero-buttons">
-            <a href="register.html" class="btn btn-primary btn-lg">
-              <i class="fas fa-rocket"></i> Commencer Gratuitement
-            </a>
-            <a href="lam-ai.html" class="btn btn-outline btn-lg">
-              <i class="fas fa-robot"></i> Essayer LAM.AI
-            </a>
+            <a href="register.html" class="btn-primary" style="padding:0.6rem 1rem;"><i class="fas fa-rocket"></i> Commencer Gratuitement</a>
+            <a href="lam-ai.html" class="btn-outline" style="padding:0.6rem 1rem;"><i class="fas fa-robot"></i> Essayer LAM.AI</a>
           </div>
 
           <!-- Système de Badges -->
-          <div class="badge-showcase">
-            <div class="badge-item badge-blue">
+          <div class="badge-showcase" role="list">
+            <div class="badge-item badge-blue" role="listitem">
               <div class="badge-visual">🔵</div>
-              <h4>Badge Bleu</h4>
-              <p>Vérifié (KYC + 10K+ followers)</p>
+              <h4 style="margin:0.25rem 0 0.35rem 0;">Badge Bleu</h4>
+              <p style="margin:0;font-size:0.9rem;color:#aab8d9;">Vérifié (KYC + 10K+ followers)</p>
             </div>
-            <div class="badge-item badge-black">
+
+            <div class="badge-item badge-black" role="listitem">
               <div class="badge-visual">⚫</div>
-              <h4>Badge Noir</h4>
-              <p>Premium (99,99€/an)</p>
+              <h4 style="margin:0.25rem 0 0.35rem 0;">Badge Noir</h4>
+              <p style="margin:0;font-size:0.9rem;color:#aab8d9;">Premium (99,99€/an)</p>
             </div>
-                        <div class="badge-item badge-gold">
+
+            <div class="badge-item badge-gold" role="listitem">
               <div class="badge-visual">🔶</div>
-              <h4>Badge Or</h4>
-              <p>Créateur (Top 1% des revenus)</p>
+              <h4 style="margin:0.25rem 0 0.35rem 0;">Badge Or</h4>
+              <p style="margin:0;font-size:0.9rem;color:#aab8d9;">Créateur (Top 1% des revenus)</p>
             </div>
           </div> <!-- .badge-showcase -->
 
-          <!-- Statistiques animées -->
-          <div class="hero-stats">
+          <!-- Statistiques animées (utiliser data-target pour les nombres) -->
+          <div class="hero-stats" aria-hidden="false">
             <div class="stat">
-              <div class="stat-number">1M</div>
+              <div class="stat-number" data-target="1000000">0</div>
               <div class="stat-label">Utilisateurs</div>
             </div>
             <div class="stat">
-              <div class="stat-number">500K</div>
+              <div class="stat-number" data-target="500000">0</div>
               <div class="stat-label">Vidéos</div>
             </div>
             <div class="stat">
-              <div class="stat-number">100K</div>
+              <div class="stat-number" data-target="100000">0</div>
               <div class="stat-label">Communautés</div>
             </div>
           </div> <!-- .hero-stats -->
@@ -621,343 +422,243 @@
         </div> <!-- .hero-content -->
       </div> <!-- .container -->
     </section> <!-- .hero -->
+
+    <!-- Features -->
     <section class="features">
       <div class="container">
         <h2 class="section-title">Fonctionnalités Exclusives</h2>
         <div class="features-grid">
-          
-          <!-- Fonctionnalité 1 -->
           <div class="feature-card">
-            <div class="feature-icon">
-              <i class="fas fa-video"></i>
-            </div>
-            <h3>Monétisation Intelligente</h3>
-            <p>Gagnez de l'argent avec chaque vidéo :<br>
-            • 0,01€ / 1000 vues<br>
-            • 0,05€ / 20 likes<br>
-            • 0,10€ / 10 partages<br>
-            • 0,02€ / 50 commentaires</p>
+            <div class="feature-icon"><i class="fas fa-video"></i></div>
+            <h3 style="margin:0.25rem 0;">Monétisation Intelligente</h3>
+            <p style="margin:0.5rem 0 0 0;font-size:0.95rem;line-height:1.4">
+              Gagnez de l'argent avec chaque vidéo — modèles de rémunération flexibles et transparents.
+            </p>
           </div>
-          
-          <!-- Fonctionnalité 2 -->
+
           <div class="feature-card">
-            <div class="feature-icon">
-              <i class="fas fa-brain"></i>
-            </div>
-            <h3>Lam.Ai - Assistant IA</h3>
-            <p>Assistant thérapeutique avec GPT-4 intégré<br>
-            • Conversations intelligentes<br>
-            • Mémoire contextuelle<br>
-            • Techniques professionnelles<br>
-            • Support 24/7</p>
+            <div class="feature-icon"><i class="fas fa-brain"></i></div>
+            <h3 style="margin:0.25rem 0;">Lam.Ai - Assistant IA</h3>
+            <p style="margin:0.5rem 0 0 0;font-size:0.95rem;line-height:1.4">
+              Assistant thérapeutique et d'accompagnement alimenté par des modèles avancés pour des conversations sécurisées.
+            </p>
           </div>
-          
-          <!-- Fonctionnalité 3 -->
+
           <div class="feature-card">
-            <div class="feature-icon">
-              <i class="fas fa-users"></i>
-            </div>
-            <h3>Communautés de Soutien</h3>
-            <p>6 groupes spécialisés :<br>
-            • Anxiété & Stress<br>
-            • Dépression<br>
-            • Phobies<br>
-            • Développement personnel<br>
-            • Relations<br>
-            • Bien-être quotidien</p>
+            <div class="feature-icon"><i class="fas fa-users"></i></div>
+            <h3 style="margin:0.25rem 0;">Communautés de Soutien</h3>
+            <p style="margin:0.5rem 0 0 0;font-size:0.95rem;line-height:1.4">
+              Groupes modérés dédiés au bien-être et au développement personnel.
+            </p>
           </div>
-          
-          <!-- Fonctionnalité 4 -->
+
           <div class="feature-card">
-            <div class="feature-icon">
-              <i class="fas fa-wallet"></i>
-            </div>
-            <h3>Portefeuille Multi-devises</h3>
-            <p>Gérez vos revenus en :<br>
-            • FCFA (Afrique)<br>
-            • EUR (Europe)<br>
-            • USD (États-Unis)<br>
-            • Paiements : PayPal, Money Fusion, virements</p>
+            <div class="feature-icon"><i class="fas fa-wallet"></i></div>
+            <h3 style="margin:0.25rem 0;">Portefeuille Multi-devises</h3>
+            <p style="margin:0.5rem 0 0 0;font-size:0.95rem;line-height:1.4">
+              Gérez vos gains, conversions et retraits vers plusieurs prestataires (PayPal, virements, etc.).
+            </p>
           </div>
-          
-          <!-- Fonctionnalité 5 -->
+
           <div class="feature-card">
-            <div class="feature-icon">
-              <i class="fas fa-gem"></i>
-            </div>
-            <h3>Badges Exclusifs</h3>
-            <p>Système de reconnaissance :<br>
-            • 🔵 Bleu : Vérifié (KYC + 10K+)<br>
-            • ⚫ Noir : Premium (99,99€)<br>
-            • 🟡 Or : Marques/Entreprises<br>
-            • Éligibilité : 10K followers + présence active</p>
+            <div class="feature-icon"><i class="fas fa-gem"></i></div>
+            <h3 style="margin:0.25rem 0;">Badges Exclusifs</h3>
+            <p style="margin:0.5rem 0 0 0;font-size:0.95rem;line-height:1.4">
+              Système de reconnaissance pour créateurs, marques et comptes vérifiés.
+            </p>
           </div>
-          
-          <!-- Fonctionnalité 6 -->
+
           <div class="feature-card">
-            <div class="feature-icon">
-              <i class="fas fa-share-alt"></i>
-            </div>
-            <h3>Parrainage & Cashback</h3>
-            <p>Recommandez et gagnez :<br>
-            • Cashback sur chaque parrain<br>
-            • Réductions sur abonnements<br>
-            • Bonus de bienvenue<br>
-            • Programme partenaire VIP</p>
+            <div class="feature-icon"><i class="fas fa-share-alt"></i></div>
+            <h3 style="margin:0.25rem 0;">Parrainage & Cashback</h3>
+            <p style="margin:0.5rem 0 0 0;font-size:0.95rem;line-height:1.4">
+              Programmes de parrainage, cashback et avantages VIP pour partenaires.
+            </p>
           </div>
-          
         </div> <!-- .features-grid -->
-      </div> <!-- .container -->
-    </section> <!-- .features -->
-    
-    <!-- Section Plans -->
+      </div>
+    </section>
+
+    <!-- Pricing (extrait simplifié) -->
     <section class="pricing">
       <div class="container">
         <h2 class="section-title">Choisissez Votre Expérience</h2>
         <div class="pricing-grid">
-          
-          <!-- Plan Gratuit -->
-          <div class="pricing-card free">
+          <div class="pricing-card">
             <div class="pricing-header">
               <h3>Gratuit</h3>
-              <div class="price">0€<span>/toujours</span></div>
+              <div class="price">0€ <small>/toujours</small></div>
             </div>
-            <ul class="pricing-features">
-              <li><i class="fas fa-check"></i> Accès à Lam.Ai (limité)</li>
-              <li><i class="fas fa-check"></i> Communautés basiques</li>
-              <li><i class="fas fa-check"></i> Monétisation vidéo</li>
-              <li><i class="fas fa-check"></i> Publicités légères</li>
-              <li><i class="fas fa-times"></i> Badges exclusifs</li>
-              <li><i class="fas fa-times"></i> Portefeuille multi-devises</li>
-              <li><i class="fas fa-times"></i> Support prioritaire</li>
+            <ul style="margin-top:0.75rem;">
+              <li>Accès limité à Lam.Ai</li>
+              <li>Communautés basiques</li>
+              <li>Monétisation standard</li>
             </ul>
-            <button class="btn btn-outline" onclick="window.location.href='register.html'">
-              Commencer Gratuitement
-            </button>
+            <div style="margin-top:0.75rem;">
+              <a class="btn-outline" href="register.html">Commencer Gratuitement</a>
+            </div>
           </div>
-          
-          <!-- Plan Premium -->
-          <div class="pricing-card premium">
+
+          <div class="pricing-card">
             <div class="pricing-header">
-              <div class="badge-popular">Populaire</div>
               <h3>Premium</h3>
-              <div class="price">99,99€<span>/an</span></div>
+              <div class="price">99,99€ <small>/an</small></div>
             </div>
-            <ul class="pricing-features">
-              <li><i class="fas fa-check"></i> Lam.Ai illimité</li>
-              <li><i class="fas fa-check"></i> Toutes les communautés</li>
-              <li><i class="fas fa-check"></i> Monétisation augmentée (+50%)</li>
-              <li><i class="fas fa-check"></i> <strong>SANS PUBLICITÉS</strong></li>
-              <li><i class="fas fa-check"></i> Badge Noir ⚫</li>
-              <li><i class="fas fa-check"></i> Portefeuille complet</li>
-              <li><i class="fas fa-check"></i> Support VIP 24/7</li>
-              <li><i class="fas fa-check"></i> Cashback parrainage 20%</li>
-              <li><i class="fas fa-check"></i> Accès early aux nouvelles fonctionnalités</li>
+            <ul style="margin-top:0.75rem;">
+              <li>Lam.Ai illimité</li>
+              <li>Badge Noir</li>
+              <li>Support VIP</li>
             </ul>
-            <button class="btn btn-primary" onclick="window.location.href='premium.html'">
-              Devenir Premium
-            </button>
+            <div style="margin-top:0.75rem;">
+              <a class="btn-primary" href="premium.html">Devenir Premium</a>
+            </div>
           </div>
-          
-        </div> <!-- .pricing-grid -->
-      </div> <!-- .container -->
-    </section> <!-- .pricing -->
-    
-    <!-- Section Éligibilité -->
-    <section class="eligibility">
-      <div class="container">
-        <h2 class="section-title">Éligibilité Monétisation & Badges</h2>
-        <div class="eligibility-content">
-          
-          <div class="eligibility-card">
-            <h3><i class="fas fa-check-circle"></i> Conditions d'Éligibilité</h3>
-            <ul>
-              <li>✅ 10,000+ abonnés minimum</li>
-              <li>✅ Présence régulière sur l'application</li>
-              <li>✅ Respect des Conditions Générales</li>
-              <li>✅ Contenu original et respectueux</li>
-              <li>✅ Aucune violation des Règles Communautaires</li>
-              <li>✅ KYC complet pour badge bleu</li>
-            </ul>
-          </div>
-          
-          <div class="eligibility-card">
-            <h3><i class="fas fa-coins"></i> Pièces Elosya</h3>
-            <p>Vos fans peuvent vous envoyer des pièces virtuelles :</p>
-            <ul>
-              <li>⭐ Système de cadeaux virtuels</li>
-              <li>💰 Recharge via jetons achetés</li>
-              <li>🎁 Conversion en revenus réels</li>
-              <li>📈 Dashboard de gains en temps réel</li>
-              <li>💳 Retraits vers Money Fusion, PayPal, virements</li>
-            </ul>
-          </div>
-          
-          <div class="eligibility-card">
-            <h3><i class="fas fa-shield-alt"></i> Modération & Signalement</h3>
-            <p>Pour une communauté saine :</p>
-            <ul>
-              <li>🚨 Signalement de comptes ou contenu</li>
-              <li>⚖️ Modération stricte et transparente</li>
-              <li>📋 Sanctions graduées (avertissement → bannissement)</li>
-              <li>🛡️ Protection des créateurs et utilisateurs</li>
-              <li>🔒 Confidentialité garantie</li>
-            </ul>
-          </div>
-          
-        </div> <!-- .eligibility-content -->
-      </div> <!-- .container -->
-    </section> <!-- .eligibility -->
-    
-    <!-- Section CTA Final -->
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Final -->
     <section class="cta-final">
       <div class="container">
-        <h2>Prêt à Rejoindre la Révolution du Bien-être Mental ?</h2>
-        <p>Plus de 1 million d'utilisateurs font déjà confiance à Elosya pour leur bien-être et leurs revenus.</p>
-        <div class="cta-buttons">
-          <button class="btn btn-primary btn-large" onclick="window.location.href='register.html'">
-            <i class="fas fa-user-plus"></i> S'inscrire Gratuitement
-          </button>
-          <button class="btn btn-outline btn-large" onclick="window.location.href='login.html'">
-            <i class="fas fa-sign-in-alt"></i> Se Connecter
-          </button>
+        <h2 class="section-title">Prêt à Rejoindre la Révolution du Bien-être Mental ?</h2>
+        <p style="text-align:center;max-width:760px;margin:0.5rem auto 1rem auto;">Plus de 1 million d'utilisateurs font déjà confiance à Elosya pour leur bien-être et leurs revenus.</p>
+        <div style="display:flex;gap:0.75rem;justify-content:center;margin-top:1rem;flex-wrap:wrap;">
+          <a class="btn-primary" href="register.html" style="padding:0.6rem 1rem;"><i class="fas fa-user-plus"></i> S'inscrire Gratuitement</a>
+          <a class="btn-outline" href="login.html" style="padding:0.6rem 1rem;"><i class="fas fa-sign-in-alt"></i> Se Connecter</a>
         </div>
-        
-        <!-- Liens vers documents légaux -->
-        <div class="legal-links">
-          <a href="cgu.html">Conditions Générales</a> • 
-          <a href="privacy.html">Politique de Confidentialité</a> • 
-          <a href="rules.html">Règles Communautaires</a> • 
-          <a href="monetization.html">Conditions de Monétisation</a>
+
+        <div style="text-align:center;margin-top:1rem;font-size:0.9rem;color:#9aa7bf;">
+          <a href="cgu.html" style="color:inherit;text-decoration:underline;">Conditions Générales</a> •
+          <a href="privacy.html" style="color:inherit;text-decoration:underline;">Politique de Confidentialité</a>
         </div>
-        
-        <div class="payment-methods">
-          <p>Paiements acceptés :</p>
-          <div class="payment-icons">
-            <i class="fab fa-cc-paypal" title="PayPal"></i>
-            <i class="fas fa-money-check-alt" title="Money Fusion"></i>
-            <i class="fas fa-university" title="Virement Bancaire"></i>
-            <i class="fab fa-cc-visa" title="Visa"></i>
-            <i class="fab fa-cc-mastercard" title="Mastercard"></i>
-            <i class="fab fa-cc-apple-pay" title="Apple Pay"></i>
-          </div>
-        </div>
-        
-      </div> <!-- .container -->
-    </section> <!-- .cta-final -->
-    
+      </div>
+    </section>
+
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="footer" role="contentinfo">
       <div class="container">
         <div class="footer-content">
-          
-          <div class="footer-section">
-            <h3>Elosya</h3>
-            <p>Plateforme de nouvelle génération pour le bien-être mental et la création de contenu.</p>
-            <div class="social-icons">
-              <a href="#"><i class="fab fa-instagram"></i></a>
-              <a href="#"><i class="fab fa-tiktok"></i></a>
-              <a href="#"><i class="fab fa-twitter"></i></a>
-              <a href="#"><i class="fab fa-youtube"></i></a>
+          <div>
+            <h3 style="color:#fff;margin:0 0 0.5rem 0;">Elosya</h3>
+            <p style="margin:0 0 0.5rem 0;">Plateforme de nouvelle génération pour le bien-être mental et la création de contenu.</p>
+            <div style="display:flex;gap:0.5rem;">
+              <a href="#" aria-label="Instagram" style="color:inherit;"><i class="fab fa-instagram"></i></a>
+              <a href="#" aria-label="TikTok" style="color:inherit;"><i class="fab fa-tiktok"></i></a>
+              <a href="#" aria-label="Twitter" style="color:inherit;"><i class="fab fa-x-twitter"></i></a>
             </div>
           </div>
-          
-          <div class="footer-section">
-            <h3>Fonctionnalités</h3>
-            <ul>
-              <li><a href="#features">Lam.Ai Assistant</a></li>
-              <li><a href="#features">Monétisation Vidéo</a></li>
-              <li><a href="#features">Communautés</a></li>
-              <li><a href="#features">Portefeuille Électronique</a></li>
-              <li><a href="#features">Badges Exclusifs</a></li>
+
+          <div>
+            <h4 style="color:#fff;margin:0 0 0.5rem 0;">Fonctionnalités</h4>
+            <ul style="padding:0;margin:0;list-style:none;">
+              <li><a href="#features" style="color:inherit;text-decoration:none;">Lam.Ai Assistant</a></li>
+              <li><a href="#features" style="color:inherit;text-decoration:none;">Monétisation Vidéo</a></li>
+              <li><a href="#features" style="color:inherit;text-decoration:none;">Communautés</a></li>
             </ul>
           </div>
-          
-          <div class="footer-section">
-            <h3>Légal</h3>
-            <ul>
-              <li><a href="cgu.html">CGU</a></li>
-              <li><a href="privacy.html">Confidentialité</a></li>
-              <li><a href="rules.html">Règles Communautaires</a></li>
-              <li><a href="monetization.html">Monétisation</a></li>
-              <li><a href="contact.html">Contact</a></li>
+
+          <div>
+            <h4 style="color:#fff;margin:0 0 0.5rem 0;">Légal</h4>
+            <ul style="padding:0;margin:0;list-style:none;">
+              <li><a href="cgu.html" style="color:inherit;text-decoration:none;">CGU</a></li>
+              <li><a href="privacy.html" style="color:inherit;text-decoration:none;">Confidentialité</a></li>
+              <li><a href="rules.html" style="color:inherit;text-decoration:none;">Règles Communautaires</a></li>
             </ul>
           </div>
-          
-          <div class="footer-section">
-            <h3>Contact</h3>
-            <ul>
+
+          <div>
+            <h4 style="color:#fff;margin:0 0 0.5rem 0;">Contact</h4>
+            <ul style="padding:0;margin:0;list-style:none;">
               <li><i class="fas fa-envelope"></i> support@elosya.com</li>
               <li><i class="fas fa-phone"></i> +33 1 23 45 67 89</li>
               <li><i class="fas fa-map-marker-alt"></i> Paris, France</li>
-              <li><i class="fas fa-money-check-alt"></i> Money Fusion: +226 02 68 89 02</li>
             </ul>
           </div>
-          
-        </div> <!-- .footer-content -->
-        
-        <div class="footer-bottom">
-          <p>&copy; 2024 Elosya. Tous droits réservés. Conçu pour concurrencer Meta et TikTok avec une approche bien-être.</p>
-          <p>Version 2.0 - Intégration complète Lam.Ai + Monétisation + Portefeuille Multi-devises</p>
         </div>
-        
-      </div> <!-- .container -->
-    </footer> <!-- .footer -->
-    
-    <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
-    <script>
-      // Animation des statistiques
-      function animateStats() {
-        const stats = document.querySelectorAll('.stat-number');
-        stats.forEach(stat => {
-          const target = parseInt(stat.textContent);
-          let current = 0;
-          const increment = target / 100;
-          const timer = setInterval(() => {
-            current += increment;
-            if (current >= target) {
-              stat.textContent = target.toLocaleString() + (stat.textContent.includes('K') ? 'K' : '');
-              clearInterval(timer);
-            } else {
-              stat.textContent = Math.floor(current).toLocaleString() + (stat.textContent.includes('K') ? 'K' : '');
-            }
-          }, 20);
-        });
+
+        <div class="footer-bottom">
+          <p>&copy; 2024 Elosya. Tous droits réservés.</p>
+          <p style="margin-top:0.25rem;">Version 2.0 - Intégration Lam.Ai + Monétisation</p>
+        </div>
+      </div>
+    </footer>
+
+  </div> <!-- .main-app -->
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+  <script>
+    // Basique: cacher splash au chargement (simulation rapide)
+    window.addEventListener('load', () => {
+      const splash = document.getElementById('splash-screen');
+      if (splash) {
+        splash.style.transition = 'opacity 400ms ease';
+        splash.style.opacity = '0';
+        setTimeout(() => splash.remove(), 450);
       }
-      
-      // Lancer l'animation quand la section devient visible
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            animateStats();
-            observer.unobserve(entry.target);
+    });
+
+    // Animation des statistiques : utilise data-target
+    function animateStats() {
+      const stats = document.querySelectorAll('.stat-number');
+      stats.forEach(stat => {
+        const target = Number(stat.dataset.target) || 0;
+        let current = 0;
+        const duration = 1200;
+        const stepTime = Math.max(12, Math.floor(duration / (target ? 100 : 1)));
+        const increment = Math.max(1, Math.floor(target / (duration / stepTime)));
+
+        const timer = setInterval(() => {
+          current += increment;
+          if (current >= target) {
+            stat.textContent = formatNumber(target);
+            clearInterval(timer);
+          } else {
+            stat.textContent = formatNumber(current);
           }
-        });
+        }, stepTime);
       });
-      
-      document.addEventListener('DOMContentLoaded', function() {
-        const statsSection = document.querySelector('.hero-stats');
-        if (statsSection) observer.observe(statsSection);
-        
-        // Particules de fond
+    }
+
+    function formatNumber(n) {
+      if (n >= 1000000) return (n / 1000000).toFixed(1).replace('.0','') + 'M';
+      if (n >= 1000) return (n / 1000).toFixed(1).replace('.0','') + 'K';
+      return n.toLocaleString();
+    }
+
+    // Observer pour lancer l'animation lorsque la section est visible
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateStats();
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.25 });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const statsSection = document.querySelector('.hero-stats');
+      if (statsSection) observer.observe(statsSection);
+
+      // Particles.js configuration (léger)
+      try {
         particlesJS('particles-js', {
           particles: {
-            number: { value: 100, density: { enable: true, value_area: 800 } },
+            number: { value: 60, density: { enable: true, value_area: 800 } },
             color: { value: "#ffffff" },
             shape: { type: "circle" },
-            opacity: { value: 0.3, random: true },
+            opacity: { value: 0.25, random: true },
             size: { value: 3, random: true },
             line_linked: {
               enable: true,
-              distance: 150,
+              distance: 120,
               color: "#ffffff",
-              opacity: 0.2,
+              opacity: 0.08,
               width: 1
             },
             move: {
               enable: true,
-              speed: 2,
+              speed: 1.8,
               direction: "none",
               random: true,
               straight: false,
@@ -970,1693 +671,24 @@
             events: {
               onhover: { enable: true, mode: "repulse" },
               onclick: { enable: true, mode: "push" }
+            },
+            modes: {
+              repulse: { distance: 80 },
+              push: { particles_nb: 4 }
             }
           },
           retina_detect: true
         });
-    
-<!-- Page d'upload vidéo (video-upload.html) -->
-
-    <title>Upload Vidéo - Elosya</title>
-</head>
-<body>
-    <!-- Formulaire d'upload -->
-    <div class="upload-container">
-        <input type="file" accept="video/*" id="videoInput">
-        <textarea placeholder="Description..."></textarea>
-        <button onclick="uploadVideo()">Publier</button>
-    </div>
-    
-    <script>
-        // Upload vers backend
-        async function uploadVideo() {
-            const file = document.getElementById('videoInput').files[0];
-            // Upload vers serveur/cloud
-        }
-      async callOpenAI(messages) {
-    const response = await fetch('http://localhost:3001/api/ai/chat', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-User-ID': this.getUserId() // À implémenter
-        },
-        body: JSON.stringify({
-            messages: messages,
-            model: this.currentModel,
-            temperature: 0.7
-        })
-    });
-    
-    if (!response.ok) {
-        throw new Error('Erreur serveur');
-    }
-    
-    const data = await response.json();
-    return data.message;
-      }
-      <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Feed Vidéo - Elosya</title>
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        /* STYLES SPÉCIFIQUES FEED TIKTOK */
-        .video-feed {
-            position: relative;
-            height: 100vh;
-            overflow: hidden;
-            background: #000;
-        }
-        
-        .video-container {
-            position: relative;
-            height: 100vh;
-            width: 100%;
-        }
-        
-        .video-player {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        /* Overlay vidéo */
-        .video-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 20px;
-            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-            color: white;
-        }
-        
-        .video-info {
-            margin-bottom: 20px;
-        }
-        
-        .video-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-        
-        .video-stats {
-            display: flex;
-            gap: 20px;
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-        
-        /* Actions droite */
-        .video-actions {
-            position: absolute;
-            right: 20px;
-            bottom: 120px;
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-            align-items: center;
-        }
-        
-        .action-btn {
-            background: rgba(255,255,255,0.1);
-            border: none;
-            border-radius: 50%;
-            width: 55px;
-            height: 55px;
-            color: white;
-            font-size: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            backdrop-filter: blur(10px);
-        }
-        
-        .action-btn:hover {
-            background: rgba(255,255,255,0.2);
-            transform: scale(1.1);
-        }
-        
-        .action-count {
-            font-size: 0.8rem;
-            margin-top: 5px;
-            text-align: center;
-            font-weight: 600;
-        }
-        
-        .like-btn.liked {
-            color: #ff4757;
-        }
-        
-        /* Navigation bas */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(0,0,0,0.9);
-            padding: 15px;
-            display: flex;
-            justify-content: space-around;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            backdrop-filter: blur(20px);
-            z-index: 1000;
-        }
-        
-        .nav-btn {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 24px;
-            cursor: pointer;
-            padding: 10px;
-            position: relative;
-        }
-        
-        .nav-btn.active {
-            color: var(--primary);
-        }
-        
-        .upload-fab {
-            position: fixed;
-            bottom: 80px;
-            right: 20px;
-            width: 60px;
-            height: 60px;
-            background: var(--gradient);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 24px;
-            box-shadow: 0 4px 20px rgba(108, 99, 255, 0.5);
-            z-index: 1001;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .upload-fab:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 30px rgba(108, 99, 255, 0.7);
-        }
-        
-        /* Barre recherche */
-        .search-bar {
-            position: fixed;
-            top: 10px;
-            left: 20px;
-            right: 20px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 25px;
-            padding: 12px 20px;
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255,255,255,0.2);
-            z-index: 1000;
-        }
-        
-        .search-input {
-            background: none;
-            border: none;
-            color: white;
-            width: 100%;
-            font-size: 1rem;
-        }
-        
-        .search-input::placeholder {
-            color: rgba(255,255,255,0.6);
-        }
-        
-        /* Swipe indication */
-        .swipe-indicator {
-            position: absolute;
-            bottom: 50%;
-            right: 20px;
-            color: white;
-            font-size: 14px;
-            opacity: 0.7;
-            animation: float 2s infinite;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-    </style>
-</head>
-<body>
-    <!-- Barre de recherche -->
-    <div class="search-bar">
-        <input type="text" class="search-input" placeholder="🔍 Rechercher des vidéos, créateurs...">
-    </div>
-    
-    <!-- Feed vidéo -->
-    <div class="video-feed" id="videoFeed">
-        <!-- Vidéos chargées dynamiquement -->
-    </div>
-    
-    <!-- Bouton upload -->
-    <div class="upload-fab" onclick="window.location.href='upload.html'">
-        <i class="fas fa-plus"></i>
-    </div>
-    
-    <!-- Navigation bas -->
-    <div class="bottom-nav">
-        <button class="nav-btn active" onclick="window.location.href='feed.html'">
-            <i class="fas fa-home"></i>
-        </button>
-        <button class="nav-btn" onclick="window.location.href='discover.html'">
-            <i class="fas fa-search"></i>
-        </button>
-        <button class="nav-btn" onclick="window.location.href='upload.html'">
-            <i class="fas fa-plus-square"></i>
-        </button>
-        <button class="nav-btn" onclick="window.location.href='messages.html'">
-            <i class="fas fa-comments"></i>
-        </button>
-        <button class="nav-btn" onclick="window.location.href='profile.html'">
-            <i class="fas fa-user"></i>
-        </button>
-    </div>
-    
-    <!-- Template vidéo -->
-    <template id="videoTemplate">
-        <div class="video-container" data-video-id="">
-            <video class="video-player" playsinline webkit-playsinline>
-                <source src="" type="video/mp4">
-                Votre navigateur ne supporte pas la vidéo.
-            </video>
-            
-            <div class="video-overlay">
-                <div class="video-info">
-                    <div class="user-info">
-                        <img src="" alt="Profil" class="user-avatar">
-                        <div>
-                            <h4 class="username">@utilisateur</h4>
-                            <p class="video-description">Description de la vidéo...</p>
-                        </div>
-                    </div>
-                    <div class="video-stats">
-                        <span>📅 <span class="time-ago">2h</span></span>
-                        <span>📍 <span class="location">Paris</span></span>
-                        <span>🏷️ <span class="hashtags">#bienêtre #mental</span></span>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Actions droite -->
-            <div class="video-actions">
-                <div class="action-group">
-                    <button class="action-btn like-btn" onclick="toggleLike(this)">
-                        <i class="fas fa-heart"></i>
-                    </button>
-                    <div class="action-count likes-count">1.5K</div>
-                </div>
-                
-                <div class="action-group">
-                    <button class="action-btn comment-btn" onclick="openComments(this)">
-                        <i class="fas fa-comment"></i>
-                    </button>
-                    <div class="action-count comments-count">89</div>
-                </div>
-                
-                <div class="action-group">
-                    <button class="action-btn share-btn" onclick="shareVideo(this)">
-                        <i class="fas fa-share"></i>
-                    </button>
-                    <div class="action-count shares-count">45</div>
-                </div>
-                
-                <div class="action-group">
-                    <button class="action-btn coins-btn" onclick="sendCoins(this)">
-                        <i class="fas fa-coins"></i>
-                    </button>
-                    <div class="action-count coins-count">12</div>
-                </div>
-                
-                <div class="action-group">
-                    <button class="action-btn menu-btn" onclick="showVideoMenu(this)">
-                        <i class="fas fa-ellipsis-v"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </template>
-    
-    <!-- Indication swipe -->
-    <div class="swipe-indicator">
-        <i class="fas fa-chevron-up"></i>
-        <div>Swipe pour suivant</div>
-    </div>
-    
-    <script src="js/feed.js"></script>
-    <script>
-        // Données temporaires (remplacé par API plus tard)
-        const videos = [
-            {
-                id: 1,
-                url: "https://assets.mixkit.co/videos/preview/mixkit-young-woman-practicing-yoga-4451-large.mp4",
-                user: {
-                    username: "@yoga_master",
-                    avatar: "https://randomuser.me/api/portraits/women/32.jpg"
-                },
-                description: "Séance de yoga matinale pour commencer la journée avec énergie positive! 🧘‍♀️✨ #yoga #bienêtre #mentalhealth",
-                likes: 1520,
-                comments: 89,
-                shares: 45,
-                coins: 12,
-                location: "Paris, France",
-                hashtags: ["#yoga", "#bienêtre", "#santémentale"],
-                timestamp: "2h"
-            },
-            {
-                id: 2,
-                url: "https://assets.mixkit.co/videos/preview/mixkit-happy-young-people-dancing-at-a-party-2382-large.mp4",
-                user: {
-                    username: "@dance_therapy",
-                    avatar: "https://randomuser.me/api/portraits/men/22.jpg"
-                },
-                description: "La danse comme thérapie! Libérez vos émotions et trouvez votre rythme intérieur 💃🕺 #danse #thérapie #joie",
-                likes: 2450,
-                comments: 156,
-                shares: 89,
-                coins: 28,
-                location: "Lyon, France",
-                hashtags: ["#danse", "#thérapie", "#positivité"],
-                timestamp: "4h"
-            }
-        ];
-        
-        // Charger les vidéos
-        function loadVideos() {
-            const feed = document.getElementById('videoFeed');
-            const template = document.getElementById('videoTemplate');
-            
-            videos.forEach(video => {
-                const clone = template.content.cloneNode(true);
-                const container = clone.querySelector('.video-container');
-                container.dataset.videoId = video.id;
-                
-                // Remplir les données
-                container.querySelector('source').src = video.url;
-                container.querySelector('.video-player').load();
-                container.querySelector('.username').textContent = video.user.username;
-                container.querySelector('.user-avatar').src = video.user.avatar;
-                container.querySelector('.video-description').textContent = video.description;
-                container.querySelector('.likes-count').textContent = formatNumber(video.likes);
-                container.querySelector('.comments-count').textContent = formatNumber(video.comments);
-                container.querySelector('.shares-count').textContent = formatNumber(video.shares);
-                container.querySelector('.coins-count').textContent = formatNumber(video.coins);
-                container.querySelector('.time-ago').textContent = video.timestamp;
-                container.querySelector('.location').textContent = video.location;
-                container.querySelector('.hashtags').textContent = video.hashtags.join(' ');
-                
-                feed.appendChild(clone);
-            });
-            
-            // Gestion swipe
-            initSwipe();
-            // Auto-play première vidéo
-            autoPlayFirstVideo();
-        }
-        
-        function formatNumber(num) {
-            if (num >= 1000) {
-                return (num / 1000).toFixed(1) + 'K';
-            }
-            return num.toString();
-        }
-        
-        function toggleLike(button) {
-            button.classList.toggle('liked');
-            const countElement = button.closest('.action-group').querySelector('.action-count');
-            let count = parseInt(countElement.textContent.replace('K', '')) * 1000 || 
-                       parseInt(countElement.textContent);
-            
-            if (button.classList.contains('liked')) {
-                count++;
-                // Simuler gain de 0.05€ par 20 likes
-                if (count % 20 === 0) {
-                    addEarnings(0.05, "like");
-                }
-            } else {
-                count--;
-            }
-            
-            countElement.textContent = formatNumber(count);
-            
-            // API call ici
-            const videoId = button.closest('.video-container').dataset.videoId;
-            fetch(`/api/like/${videoId}`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' }
-            });
-        }
-        
-        function shareVideo(button) {
-            const videoContainer = button.closest('.video-container');
-            const videoId = videoContainer.dataset.videoId;
-            const videoUrl = `${window.location.origin}/video/${videoId}`;
-            
-            // Options de partage
-            if (navigator.share) {
-                navigator.share({
-                    title: 'Regarde cette vidéo sur Elosya!',
-                    text: 'Découvre cette vidéo inspirante sur la plateforme de bien-être mental',
-                    url: videoUrl
-                }).then(() => {
-                    // Augmenter compteur shares
-                    const countElement = button.closest('.action-group').querySelector('.action-count');
-                    let count = parseInt(countElement.textContent.replace('K', '')) * 1000 || 
-                               parseInt(countElement.textContent);
-                    count++;
-                    countElement.textContent = formatNumber(count);
-                    
-                    // Simuler gain de 0.10€ par 10 shares
-                    if (count % 10 === 0) {
-                        addEarnings(0.10, "share");
-                    }
-                });
-            } else {
-                // Fallback copy link
-                navigator.clipboard.writeText(videoUrl).then(() => {
-                    alert('Lien copié! Partage-le sur tes réseaux!');
-                });
-            }
-            
-            // API call
-            fetch(`/api/share/${videoId}`, {
-                method: 'POST'
-            });
-        }
-        
-        function sendCoins(button) {
-            const videoId = button.closest('.video-container').dataset.videoId;
-            const amount = prompt("Combien de pièces Elosya voulez-vous envoyer? (1 pièce = 0.10€)");
-            
-            if (amount && !isNaN(amount) && amount > 0) {
-                // API call pour envoyer des pièces
-                fetch('/api/send-coins', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        videoId: videoId,
-                        amount: parseInt(amount)
-                    })
-                }).then(response => {
-                    if (response.ok) {
-                        alert(`✅ ${amount} pièces envoyées au créateur!`);
-                        // Mettre à jour compteur
-                        const countElement = button.closest('.action-group').querySelector('.action-count');
-                        let count = parseInt(countElement.textContent.replace('K', '')) * 1000 || 
-                                   parseInt(countElement.textContent);
-                        count += parseInt(amount);
-                        countElement.textContent = formatNumber(count);
-                    }
-                });
-            }
-        }
-        
-        function addEarnings(amount, type) {
-            // Ajouter aux gains de l'utilisateur
-            console.log(`+${amount}€ gagnés via ${type}`);
-            // Mettre à jour le portefeuille en temps réel
-            updateWallet(amount);
-        }
-        
-        function updateWallet(amount) {
-            // Met à jour l'affichage du portefeuille
-            const walletElement = document.querySelector('.wallet-amount');
-            if (walletElement) {
-                let current = parseFloat(walletElement.textContent.replace('€', ''));
-                walletElement.textContent = (current + amount).toFixed(2) + '€';
-            }
-        }
-        
-        function initSwipe() {
-            let startY;
-            const feed = document.getElementById('videoFeed');
-            
-            feed.addEventListener('touchstart', e => {
-                startY = e.touches[0].clientY;
-            });
-            
-            feed.addEventListener('touchend', e => {
-                const endY = e.changedTouches[0].clientY;
-                const diff = startY - endY;
-                
-                if (Math.abs(diff) > 50) {
-                    if (diff > 0) {
-                        // Swipe up - next video
-                        next} else {
-                        // Swipe down - previous video
-                        prevVideo();
-                    }
-                }
-            });
-            
-            // Navigation clavier
-            document.addEventListener('keydown', e => {
-                if (e.key === 'ArrowDown') nextVideo();
-                if (e.key === 'ArrowUp') prevVideo();
-            });
-        }
-        
-        let currentVideoIndex = 0;
-        
-        function nextVideo() {
-            const videos = document.querySelectorAll('.video-container');
-            if (currentVideoIndex < videos.length - 1) {
-                videos[currentVideoIndex].style.transform = 'translateY(-100vh)';
-                currentVideoIndex++;
-                videos[currentVideoIndex].style.transform = 'translateY(0)';
-                playVideo(videos[currentVideoIndex]);
-            }
-        }
-        
-        function prevVideo() {
-            const videos = document.querySelectorAll('.video-container');
-            if (currentVideoIndex > 0) {
-                videos[currentVideoIndex].style.transform = 'translateY(100vh)';
-                currentVideoIndex--;
-                videos[currentVideoIndex].style.transform = 'translateY(0)';
-                playVideo(videos[currentVideoIndex]);
-            }
-        }
-        
-        function playVideo(container) {
-            const video = container.querySelector('.video-player');
-            video.play().catch(e => console.log("Autoplay blocked:", e));
-        }
-        
-        function autoPlayFirstVideo() {
-            const firstVideo = document.querySelector('.video-container');
-            if (firstVideo) {
-                playVideo(firstVideo);
-            }
-        }
-        
-        // Initialisation
-        document.addEventListener('DOMContentLoaded', loadVideos);
-              <li><a href="premium.html" class="active"><i class="fas fa-crown"></i> Premium Elite</a></li>
-            <li><a href="wallet.html"><i class="fas fa-wallet"></i> Portefeuille</a></li>
-          </ul>
-        </nav>
-        <div class="header-actions">
-          <a href="login.html" class="btn btn-outline">Connexion</a>
-          <a href="register.html" class="btn btn-primary">S'inscrire</a>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <!-- Premium Hero -->
-  <section class="premium-hero">
-    <div class="container">
-      <i class="fas fa-crown crown-icon"></i>
-      <h1 class="section-title">Passez à <span class="gradient-text">Premium Elite</span></h1>
-      <p class="section-subtitle" style="color: rgba(255,255,255,0.8);">
-        Tout ce que vous obtenez pour <strong>99,99€/an</strong> - Sans publicités, avec badge exclusif et monétisation augmentée
-      </p>
-      
-      <!-- Badge Display -->
-      <div class="badge-display">
-        <div class="badge-item badge-blue">
-          <div class="badge-icon">🔵</div>
-          <h3>Badge Bleu</h3>
-          <p>Vérification KYC + 10K followers</p>
-          <small>Gratuit - Conditions requises</small>
-        </div>
-        
-        <div class="badge-item badge-black">
-          <div class="badge-icon">⚫</div>
-          <h3>Badge Noir Premium</h3>
-          <p>Exclusif aux abonnés Premium</p>
-          <small>99,99€/an - Tout inclus</small>
-        </div>
-        
-        <div class="badge-item badge-gold">
-          <div class="badge-icon">🟡</div>
-          <h3>Badge Or Entreprise</h3>
-          <p>Marques & Entreprises vérifiées</p>
-          <small>Documents requis</small>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Premium Benefits -->
-  <section class="features" style="padding: 80px 0; background: #f8f9fa;">
-    <div class="container">
-      <div class="section-header">
-        <h2 class="section-title">Avantages Premium Elite</h2>
-        <p class="section-subtitle">Tous les avantages exclusifs de votre abonnement à 99,99€/an</p>
-      </div>
-      
-      <div class="features-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 50px;">
-        <div class="feature-card" style="background: white; padding: 30px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-          <div class="feature-icon" style="font-size: 40px; color: var(--primary); margin-bottom: 20px;">
-            <i class="fas fa-ad"></i>
-          </div>
-          <h3 style="margin-bottom: 15px;">ZÉRO PUBLICITÉS</h3>
-          <p>Expérience 100% sans publicités sur toute la plateforme. Navigation fluide et sans interruptions.</p>
-        </div>
-                
-      </div>
-      
-      <div style="text-align: center; padding-top: 30px; border-top: 1px solid #333; color: #999; font-size: 0.9rem;">
-        <p>&copy; 2024 Elosya Premium Elite. Tous droits réservés. Badge Noir ⚫ - Sans publicités.</p>
-        <p style="margin-top: 10px;">Conçu pour concurrencer Meta, TikTok et Instagram avec une approche bien-être.</p>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Money Fusion QR Modal -->
-  <div id="moneyFusionModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10000; justify-content: center; align-items: center;">
-    <div style="background: white; padding: 40px; border-radius: 20px; text-align: center; max-width: 500px;">
-      <h3 style="margin-bottom: 20px;"><i class="fas fa-qrcode"></i> QR Code Money Fusion</h3>
-      <div id="qrCodePlaceholder" style="width: 200px; height: 200px; background: #f0f0f0; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center;">
-        <div style="text-align: center;">
-          <div style="font-size: 3rem;">📱</div>
-          <small>QR Code à générer</small>
-        </div>
-      </div>
-      <p style="margin-bottom: 20px;">Scannez ce QR Code avec Money Fusion ou utilisez le numéro :</p>
-      <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; font-family: monospace; font-size: 1.2rem;">
-        +226 02 68 89 02
-      </div>
-      <button onclick="closeModal()" style="margin-top: 30px; padding: 10px 30px; background: #0072ff; color: white; border: none; border-radius: 5px; cursor: pointer;">
-        Fermer
-      </button>
-    </div>
-  </div>
-
-  <script>
-    // Money Fusion Modal
-    function showMoneyFusionQR() {
-      document.getElementById('moneyFusionModal').style.display = 'flex';
-    }
-    
-    function closeModal() {
-      document.getElementById('moneyFusionModal').style.display = 'none';
-    }
-    
-    // Contact Support
-    function contactSupport() {
-      window.location.href = 'mailto:premium@elosya.com?subject=Support%20après%20paiement%20Premium';
-    }
-    
-    // FAQ Toggle
-    document.querySelectorAll('.faq-question').forEach(item => {
-      item.addEventListener('click', () => {
-        const answer = item.nextElementSibling;
-        answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
-        const icon = item.querySelector('i');
-        icon.className = answer.style.display === 'block' ? 'fas fa-chevron-up' : 'fas fa-chevron-down';
-      });
-    });
-    
-    // Close modal on click outside
-    document.getElementById('moneyFusionModal').addEventListener('click', function(e) {
-      if (e.target === this) closeModal();
-    });
-            } else if (strength === 'strong') {
-        strengthBarFill.classList.add('strength-strong');
-        passwordStrengthText.textContent = 'Fort';
-        passwordStrengthText.style.color = 'var(--success)';
+      } catch (e) {
+        // particles.js may fail if blocked; ignore silently
+        console.warn('particles.js init failed', e);
       }
     });
 
-    registerForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      const name = document.getElementById('name').value;
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      const confirmPassword = document.getElementById('confirm-password').value;
-      const referralCode = document.getElementById('referral-code').value;
-      const terms = document.getElementById('terms').checked;
-      
-      // Validation
-      if (name.length < 2) {
-        showError('Le nom doit contenir au moins 2 caractères');
-        return;
-      }
-      
-      if (!validateEmail(email)) {
-        showError('Veuillez entrer une adresse email valide');
-        return;
-      }
-      
-      if (password.length < 8) {
-        showError('Le mot de passe doit contenir au moins 8 caractères');
-        return;
-      }
-      
-      if (password !== confirmPassword) {
-        showError('Les mots de passe ne correspondent pas');
-        return;
-      }
-      
-      if (!terms) {
-        showError('Vous devez accepter les conditions d\'utilisation');
-        return;
-      }
-      
-      // Demo registration (in real app, this would call an API)
-      const userData = {
-        name: name,
-        email: email,
-        referralCode: referralCode,
-        registrationTime: new Date().toISOString(),
-        isPremium: false
-      };
-      
-      saveUserSession(userData);
-      showSuccess('Inscription réussie ! Redirection...');
-      
-      setTimeout(() => {
-        window.location.href = 'index.html';
-      }, 1500);
-    });
-
-    function checkPasswordStrength(password) {
-      if (password.length < 8) return 'weak';
-      
-      let strength = 0;
-      if (password.length >= 12) strength++;
-      if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength++;
-      if (/\d/.test(password)) strength++;
-      if (/[^a-zA-Z\d]/.test(password)) strength++;
-      
-      if (strength <= 1) return 'weak';
-      if (strength <= 2) return 'medium';
-      return 'strong';
-    }
-
-    function showError(message) {
-      errorMessage.textContent = message;
-      errorMessage.style.display = 'block';
-      successMessage.style.display = 'none';
-      
-      setTimeout(() => {
-        errorMessage.style.display = 'none';
-      }, 5000);
-    }
-
-    function showSuccess(message) {
-      successMessage.textContent = message;
-      successMessage.style.display = 'block';
-      errorMessage.style.display = 'none';
-    }
-
-    function validateEmail(email) {
-      const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      return re.test(email);
-    }
-
-    function saveUserSession(userData) {
-      localStorage.setItem('elosya_user', JSON.stringify(userData));
-    }
-
-    function registerWithGoogle() {
-      showError('Inscription Google sera disponible prochainement');
-    }
-
-    function registerWithFacebook() {
-      showError('Inscription Facebook sera disponible prochainement');
-    }
-                      return;
-            }
-            
-            const formData = new FormData();
-            formData.append('video', selectedFile);
-            formData.append('title', document.getElementById('videoTitle').value);
-            formData.append('description', document.getElementById('videoDescription').value);
-            formData.append('hashtags', JSON.stringify(hashtags));
-            formData.append('visibility', document.getElementById('visibility').value);
-            formData.append('monetize', document.getElementById('monetize').checked);
-            
-            // Désactiver bouton
-            uploadBtn.disabled = true;
-            uploadBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Publication...';
-            
-            // Afficher progression
-            progressBar.style.display = 'block';
-            
-            try {
-                // Simulation upload (remplacé par API réelle)
-                await simulateUpload(formData);
-                
-                // Succès
-                alert('✅ Vidéo publiée avec succès!');
-                window.location.href = 'feed.html';
-                
-            } catch (error) {
-                alert('❌ Erreur lors de la publication: ' + error.message);
-                uploadBtn.disabled = false;
-                uploadBtn.innerHTML = '<i class="fas fa-upload"></i> Publier la vidéo';
-            }
-        });
-        
-        // Simulation upload avec progression
-        function simulateUpload(formData) {
-            return new Promise((resolve) => {
-                let progress = 0;
-                const interval = setInterval(() => {
-                    progress += 10;
-                    progressFill.style.width = `${progress}%`;
-                    
-                    if (progress >= 100) {
-                        clearInterval(interval);
-                        // Simuler traitement serveur
-                        setTimeout(() => {
-                            console.log('Vidéo uploadée:', {
-                                title: formData.get('title'),
-                                description: formData.get('description'),
-                                hashtags: JSON.parse(formData.get('hashtags'))
-                            });
-                            resolve();
-                        }, 500);
-                    }
-                }, 200);
-            });
-        }
-        
-        // API réelle (à implémenter)
-        async function uploadToServer(formData) {
-            const response = await fetch('/api/upload/video', {
-                method: 'POST',
-                body: formData
-                // headers automatiques pour FormData
-            });
-            
-            if (!response.ok) {
-                throw new Error('Erreur serveur');
-            }
-            
-            return response.json();
-      }
-      <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lam.AI - Intelligence Artificielle Elosya</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary-color: #2563eb;
-            --primary-dark: #1d4ed8;
-            --secondary-color: #7c3aed;
-            --dark-color: #1e293b;
-            --light-color: #f8fafc;
-            --gray-color: #64748b;
-            --success-color: #10b981;
-            --warning-color: #f59e0b;
-            --danger-color: #ef4444;
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            --transition: all 0.3s ease;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-        }
-
-        body {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            color: var(--light-color);
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        /* Header et Navigation */
-        .header {
-            background: rgba(30, 41, 59, 0.9);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 70px;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: white;
-        }
-
-        .logo-icon {
-            color: var(--primary-color);
-            font-size: 1.8rem;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 30px;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--light-color);
-            text-decoration: none;
-            font-weight: 500;
-            transition: var(--transition);
-            position: relative;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary-color);
-        }
-
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--primary-color);
-            transition: var(--transition);
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        .nav-actions {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-
-        .btn {
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            border: none;
-            font-size: 0.95rem;
-        }
-
-        .btn-primary {
-            background: var(--primary-color);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-        }
-
-        .btn-outline {
-            background: transparent;
-            color: var(--light-color);
-            border: 1px solid var(--gray-color);
-        }
-
-        .btn-outline:hover {
-            border-color: var(--primary-color);
-            color: var(--primary-color);
-        }
-
-        .btn-pro {
-            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
-            color: white;
-        }
-
-        .btn-pro:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
-        }
-
-        /* Container Principal */
-        .main-container {
-            max-width: 1400px;
-            margin: 90px auto 30px;
-            padding: 0 20px;
-            display: flex;
-            gap: 30px;
-            height: calc(100vh - 120px);
-        }
-
-        /* Sidebar */
-        .sidebar {
-            width: 280px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border-radius: 16px;
-            padding: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-        }
-
-        .sidebar-section {
-            margin-bottom: 25px;
-        }
-
-        .sidebar-title {
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            color: var(--gray-color);
-            margin-bottom: 15px;
-            letter-spacing: 1px;
-        }
-
-        .chat-history {
-            flex-grow: 1;
-        }
-
-        .chat-item {
-            padding: 12px 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            margin-bottom: 10px;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .chat-item:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .chat-item.active {
-            background: rgba(37, 99, 235, 0.2);
-            border-left: 3px solid var(--primary-color);
-        }
-
-        .chat-icon {
-            color: var(--primary-color);
-        }
-
-        .new-chat-btn {
-            width: 100%;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        /* Zone de Chat */
-        .chat-container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            overflow: hidden;
-        }
-
-        .chat-header {
-            padding: 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .chat-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
-
-        .chat-models {
-            display: flex;
-            gap: 10px;
-        }
-
-        .model-select {
-            background: rgba(30, 41, 59, 0.8);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 8px 15px;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            cursor: pointer;
-        }
-
-        .model-pro {
-            background: linear-gradient(135deg, rgba(124, 58, 237, 0.3), rgba(37, 99, 235, 0.3));
-        }
-
-        .chat-messages {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .message {
-            max-width: 85%;
-            padding: 15px;
-            border-radius: 12px;
-            line-height: 1.5;
-        }
-
-        .user-message {
-            align-self: flex-end;
-            background: rgba(37, 99, 235, 0.2);
-            border: 1px solid rgba(37, 99, 235, 0.3);
-            border-bottom-right-radius: 4px;
-        }
-
-        .ai-message {
-            align-self: flex-start;
-            background: rgba(30, 41, 59, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-bottom-left-radius: 4px;
-        }
-
-        .message-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 8px;
-        }
-
-        .message-icon {
-            font-size: 1.2rem;
-        }
-
-        .user-icon {
-            color: var(--primary-color);
-        }
-
-        .ai-icon {
-            color: var(--success-color);
-        }
-
-        .message-content {
-            font-size: 1rem;
-        }
-
-        .chat-input-container {
-            padding: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .chat-input-wrapper {
-            display: flex;
-            gap: 15px;
-            align-items: flex-end;
-        }
-
-        .chat-input {
-            flex: 1;
-            background: rgba(30, 41, 59, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 15px;
-            color: white;
-            font-size: 1rem;
-            resize: none;
-            min-height: 60px;
-            max-height: 120px;
-            outline: none;
-            transition: var(--transition);
-        }
-
-        .chat-input:focus {
-            border-color: var(--primary-color);
-        }
-
-        .send-btn {
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            width: 50px;
-            height: 50px;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-        }
-
-        .send-btn:hover {
-            background: var(--primary-dark);
-            transform: translateY(-2px);
-        }
-
-        .input-actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-            flex-wrap: wrap;
-        }
-
-        .action-btn {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--gray-color);
-            padding: 8px 15px;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .action-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-        }
-
-        /* Bannière Pro */
-        .pro-banner {
-            background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(37, 99, 235, 0.2));
-            border: 1px solid rgba(124, 58, 237, 0.3);
-            border-radius: 12px;
-            padding: 15px;
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .pro-banner h4 {
-            color: var(--secondary-color);
-            margin-bottom: 5px;
-        }
-
-        .pro-banner p {
-            font-size: 0.9rem;
-            color: var(--gray-color);
-            margin-bottom: 10px;
-        }
-
-        /* Styles pour le code */
-        code {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9em;
-        }
-
-        pre {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 15px;
-            border-radius: 8px;
-            overflow-x: auto;
-            margin: 10px 0;
-            font-family: 'Courier New', monospace;
-        }
-
-        pre code {
-            background: none;
-            padding: 0;
-        }
-
-        .typing-indicator {
-            display: flex;
-            gap: 5px;
-            align-items: center;
-            height: 24px;
-        }
-
-        .typing-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--primary-color);
-            border-radius: 50%;
-            opacity: 0.6;
-            animation: pulse 1.5s infinite;
-        }
-
-        .typing-dot:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .typing-dot:nth-child(3) {
-            animation-delay: 0.4s;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.6; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.1); }
-        }
-
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .main-container {
-                flex-direction: column;
-                height: auto;
-            }
-            
-            .sidebar {
-                width: 100%;
-                max-height: 300px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-            
-            .chat-models {
-                flex-direction: column;
-            }
-            
-            .message {
-                max-width: 95%;
-            }
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .fade-in {
-            animation: fadeIn 0.3s ease forwards;
-        }
-
-        /* Scrollbar personnalisée */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary-color);
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--primary-dark);
-        }
-
-        /* Modal Overlay */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .modal-content {
-            background: var(--dark-color);
-            border-radius: 16px;
-            width: 90%;
-            max-width: 500px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            animation: modalSlideIn 0.3s ease;
-        }
-
-        .modal-header {
-            padding: 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .modal-body {
-            padding: 20px;
-            max-height: 60vh;
-            overflow-y: auto;
-        }
-
-        .modal-footer {
-            padding: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
-        }
-
-        @keyframes modalSlideIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes modalSlideOut {
-            from { opacity: 1; transform: translateY(0); }
-            to { opacity: 0; transform: translateY(20px); }
-        }
-
-        /* Notification */
-        .notification {
-            position: fixed;
-            top: 80px;
-            right: 20px;
-            padding: 12px 20px;
-            border-radius: 8px;
-            z-index: 10000;
-            animation: fadeIn 0.3s ease;
-            max-width: 300px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .notification-success {
-            background: var(--success-color);
-            color: white;
-        }
-
-        .notification-error {
-            background: var(--danger-color);
-            color: white;
-        }
-
-        .notification-warning {
-            background: var(--warning-color);
-            color: white;
-        }
-
-        .notification-info {
-            background: var(--primary-color);
-            color: white;
-        }
-    </style>
-</head>
-<body>
-    <!-- Header -->
-    <header class="header">
-        <div class="nav-container">
-            <div class="logo">
-                <i class="fas fa-brain logo-icon"></i>
-                <span>Lam.AI</span>
-                <span style="font-size: 0.8rem; background: rgba(37, 99, 235, 0.2); padding: 2px 8px; border-radius: 12px; margin-left: 10px;">
-                    <i class="fas fa-play-circle"></i> Elosya Edition
-                </span>
-            </div>
-            
-            <ul class="nav-links">
-                <li><a href="#"><i class="fas fa-home"></i> Accueil</a></li>
-                <li><a href="#"><i class="fas fa-robot"></i> Fonctionnalités</a></li>
-                <li><a href="#"><i class="fas fa-video"></i> Vidéos</a></li>
-                <li><a href="#"><i class="fas fa-chart-line"></i> Analytics</a></li>
-                <li><a href="#"><i class="fas fa-question-circle"></i> Aide</a></li>
-            </ul>
-            
-            <div class="nav-actions">
-                <button class="btn btn-outline" id="history-btn">
-                    <i class="fas fa-history"></i> Historique
-                </button>
-                <button class="btn btn-pro" id="upgrade-btn">
-                    <i class="fas fa-crown"></i> Passer à Pro
-                </button>
-                <button class="btn btn-primary" id="new-chat-btn">
-                    <i class="fas fa-plus"></i> Nouveau Chat
-                </button>
-            </div>
-        </div>
-    </header>
-<!-- Container Principal -->
-<div class="main-container">
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <button class="btn btn-primary new-chat-btn" id="sidebar-new-chat">
-            <i class="fas fa-plus"></i> Nouvelle conversation
-        </button>
-        
-        <div class="sidebar-section chat-history">
-            <h3 class="sidebar-title"><i class="fas fa-history"></i> Historique récent</h3>
-            <div id="chat-list">
-                <!-- Les conversations seront chargées ici dynamiquement -->
-            </div>
-        </div>
-        
-        <div class="sidebar-section">
-            <h3 class="sidebar-title"><i class="fas fa-bolt"></i> Actions rapides</h3>
-            <div class="quick-actions">
-                <button class="action-btn" onclick="openElosyaAI('video_analysis')">
-                    <i class="fas fa-chart-line"></i> Analyser une vidéo
-                </button>
-                <button class="action-btn" onclick="openElosyaAI('script_generation')">
-                    <i class="fas fa-file-alt"></i> Générer un script
-                </button>
-                <button class="action-btn" onclick="openElosyaAI('thumbnail_ideas')">
-                    <i class="fas fa-image"></i> Idées de miniature
-                </button>
-                <button class="action-btn" onclick="openElosyaAI('seo_optimization')">
-                    <i class="fas fa-search"></i> Optimiser SEO
-                </button>
-            </div>
-        </div>
-        
-        <div class="pro-banner">
-            <h4><i class="fas fa-crown"></i> Version Pro</h4>
-            <p>Accédez à des modèles avancés et des fonctionnalités exclusives</p>
-            <button class="btn btn-pro" style="width: 100%;" id="sidebar-upgrade-btn">
-                <i class="fas fa-rocket"></i> Mettre à niveau
-            </button>
-        </div>
-    </div>
-
-    <!-- Zone de Chat -->
-    <div class="chat-container">
-        <div class="chat-header">
-            <div class="chat-title">
-                <i class="fas fa-comment"></i> Assistant Lam.AI
-                <span id="pro-badge" style="display: none; margin-left: 10px;"></span>
-            </div>
-            <div class="chat-models">
-                <select class="model-select" id="model-select">
-                    <option value="gpt-3.5">Lam.AI Standard (GPT-3.5)</option>
-                    <option value="gpt-4">Lam.AI Pro (GPT-4)</option>
-                    <option value="gpt-4-turbo">Lam.AI Turbo (GPT-4 Turbo)</option>
-                </select>
-                <button class="model-select model-pro" id="pro-features-btn">
-                    <i class="fas fa-crown"></i> Fonctions Pro
-                </button>
-            </div>
-        </div>
-        
-        <div class="chat-messages" id="chat-messages">
-            <!-- Messages de bienvenue -->
-            <div class="message ai-message fade-in">
-                <div class="message-header">
-                    <i class="fas fa-brain ai-icon message-icon"></i>
-                    <strong>Lam.AI</strong>
-                    <span style="font-size: 0.8rem; background: rgba(16, 185, 129, 0.2); padding: 2px 8px; border-radius: 12px; margin-left: 10px;">
-                        <i class="fas fa-play-circle"></i> Elosya Edition
-                    </span>
-                </div>
-                <div class="message-content">
-                    <h4 style="margin-bottom: 10px;">🎬 Bienvenue sur Lam.AI pour Elosya !</h4>
-                    <p>Je suis votre assistant IA spécialisé dans la création de contenu vidéo. Je peux vous aider avec :</p>
-                    <ul style="margin: 10px 0 10px 20px;">
-                        <li>📊 Analyse de performance vidéo</li>
-                        <li>🎬 Génération de scripts complets</li>
-                        <li>🖼️ Idées de miniatures accrocheuses</li>
-                        <li>🔍 Optimisation SEO et description</li>
-                        <li>💡 Suggestions de contenu viral</li>
-                        <li>📈 Stratégies de croissance</li>
-                    </ul>
-                    <p><strong>Exemple :</strong> Dites-moi "Analyse ma dernière vidéo sur le montage" ou "Génère un script pour un tutoriel Python"</p>
-                    <p style="margin-top: 10px; padding: 10px; background: rgba(37, 99, 235, 0.1); border-radius: 8px;">
-                        <i class="fas fa-lightbulb"></i> <strong>Astuce :</strong> Utilisez les boutons "Actions rapides" pour des tâches spécifiques !
-                    </p>
-                </div>
-            </div>
-        </div>
-        
-        <div class="chat-input-container">
-            <div class="chat-input-wrapper">
-                <textarea class="chat-input" id="chat-input" placeholder="Envoyez un message à Lam.AI... (Appuyez sur Entrée pour envoyer, Maj+Entrée pour un saut de ligne)"></textarea>
-                <button class="send-btn" id="send-btn">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
-            </div>
-            <div class="input-actions">
-                <button class="action-btn" onclick="suggestVideoIdeas()">
-                    <i class="fas fa-lightbulb"></i> Idées vidéo
-                </button>
-                <button class="action-btn" onclick="analyzeVideo()">
-                    <i class="fas fa-chart-line"></i> Analyser
-                </button>
-                <button class="action-btn" onclick="generateDescription()">
-                    <i class="fas fa-file-alt"></i> Description
-                </button>
-                <button class="action-btn" onclick="clearChat()">
-                    <i class="fas fa-trash"></i> Effacer
-                </button>
-                <button class="action-btn" onclick="exportConversation()">
-                    <i class="fas fa-download"></i> Exporter
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal d'upgrade -->
-<div id="modal-upgrade" class="modal-overlay" style="display: none;">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3><i class="fas fa-rocket"></i> Passez à Lam.AI Pro</h3>
-            <button class="close-modal" onclick="closeModal('upgrade')">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <div class="modal-body" id="upgrade-modal-content">
-            <!-- Le contenu sera injecté dynamiquement -->
-        </div>
-    </div>
-</div>
-
-<!-- Modal de fonctionnalités Pro -->
-<div id="modal-pro-features" class="modal-overlay" style="display: none;">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3><i class="fas fa-crown"></i> Fonctions Professionnelles</h3>
-            <button class="close-modal" onclick="closeModal('pro-features')">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <div class="modal-body" id="pro-features-content">
-            <!-- Le contenu sera injecté dynamiquement -->
-        </div>
-    </div>
-      
-    </script>
+    // Note:
+    // - Le formulaire d'upload vidéo a été retiré de ce fichier pour garder index propre.
+    // - Les pages dédiées (video-upload.html, lam-ai.html, premium.html...) doivent contenir leur propre code.
+    // - Évitez d'insérer des snippets JavaScript incomplets (ex: fonctions asynchrones tronquées).
+  </script>
 </body>
 </html>
