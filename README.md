@@ -48,6 +48,15 @@
 - Carte bancaire
 - Virement bancaire
 
+## 🤖 Lancer le backend IA
+
+1. Installez les dépendances avec `npm install`.
+2. Copiez `.env.example` vers `.env`.
+3. Ajoutez votre nouvelle clé dans `OPENAI_API_KEY` dans le fichier `.env` local.
+4. Lancez le service avec `npm run ai`.
+
+Ne publiez jamais `.env` ni une clé API. La valeur de `.env.example` reste vide.
+
 ## 🚀 Technologies utilisées
 
 - HTML5
