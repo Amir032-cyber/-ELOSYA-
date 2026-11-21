@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3001;
 
 // ===== CONFIGURATION =====
 const ELOSYA_AI_CONFIG = {
-    OPENAI_API_KEY: process.env.OPENAI_API_KEY || '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',
+    OPENAI_API_KEY: process.env.OPENAI_API_KEY || null,
     RATE_LIMIT_WINDOW: 15 * 60 * 1000, // 15 minutes
     RATE_LIMIT_MAX: 100, // 1000 requêtes par fenêtre
     MAX_TOKENS: 2000,
